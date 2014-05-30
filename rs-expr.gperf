@@ -1,0 +1,435 @@
+%{
+/* rs-expr.gperf --- symbol table for arithmetic expressions.	-*- C -*-
+
+   Copyright (C) 1993 Ralph Schleicher
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions
+   are met:
+
+      * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+
+      * Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in
+        the documentation and/or other materials provided with the
+        distribution.
+
+      * The name of the author may not be used to endorse or promote
+        products derived from this software without specific prior
+        written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS
+   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+   INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+   IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.  */
+
+
+#if defined (__GLIBC__) && __GLIBC__ >= 2
+#ifndef HAVE_TRUNC
+#define HAVE_TRUNC 1
+#endif
+#ifndef HAVE_DREM
+#define HAVE_DREM 1
+#endif
+#ifndef HAVE_REMAINDER
+#define HAVE_REMAINDER 1
+#endif
+#ifndef HAVE_FMIN
+#define HAVE_FMIN 1
+#endif
+#ifndef HAVE_FMAX
+#define HAVE_FMAX 1
+#endif
+#ifndef HAVE_LOG10
+#define HAVE_LOG10 1
+#endif
+#ifndef HAVE_LOG2
+#define HAVE_LOG2 1
+#endif
+#ifndef HAVE_CBRT
+#define HAVE_CBRT 1
+#endif
+#ifndef HAVE_HYPOT
+#define HAVE_HYPOT 1
+#endif
+#ifndef HAVE_ASINH
+#define HAVE_ASINH 1
+#endif
+#ifndef HAVE_ACOSH
+#define HAVE_ACOSH 1
+#endif
+#ifndef HAVE_ATANH
+#define HAVE_ATANH 1
+#endif
+#ifndef HAVE_ERF
+#define HAVE_ERF 1
+#endif
+#ifndef HAVE_ERFC
+#define HAVE_ERFC 1
+#endif
+#ifndef HAVE_TGAMMA
+#define HAVE_TGAMMA 1
+#endif
+#ifndef HAVE_LGAMMA
+#define HAVE_LGAMMA 1
+#endif
+#endif /* __GLIBC__ */
+
+#if defined (__CYGWIN__) || defined (__MINGW32__)
+#ifndef HAVE_TRUNC
+#define HAVE_TRUNC 1
+#endif
+#ifndef HAVE_REMAINDER
+#define HAVE_REMAINDER 1
+#endif
+#ifndef HAVE_FMIN
+#define HAVE_FMIN 1
+#endif
+#ifndef HAVE_FMAX
+#define HAVE_FMAX 1
+#endif
+#ifndef HAVE_LOG10
+#define HAVE_LOG10 1
+#endif
+#ifndef HAVE_LOG2
+#define HAVE_LOG2 1
+#endif
+#ifndef HAVE_CBRT
+#define HAVE_CBRT 1
+#endif
+#ifndef HAVE_HYPOT
+#define HAVE_HYPOT 1
+#endif
+#ifndef HAVE_ASINH
+#define HAVE_ASINH 1
+#endif
+#ifndef HAVE_ACOSH
+#define HAVE_ACOSH 1
+#endif
+#ifndef HAVE_ATANH
+#define HAVE_ATANH 1
+#endif
+#ifndef HAVE_ERF
+#define HAVE_ERF 1
+#endif
+#ifndef HAVE_ERFC
+#define HAVE_ERFC 1
+#endif
+#ifndef HAVE_TGAMMA
+#define HAVE_TGAMMA 1
+#endif
+#ifndef HAVE_LGAMMA
+#define HAVE_LGAMMA 1
+#endif
+#endif /* __CYGWIN__ or __MINGW32__ */
+
+#ifdef _MSC_VER
+#ifndef HAVE_HYPOT
+#define HAVE_HYPOT 1
+#define hypot _hypot
+#endif
+#define copysign _copysign
+#endif /* _MSC_VER */
+
+
+/* Truncation function.  */
+#if HAVE_TRUNC
+#else /* not HAVE_TRUNC */
+static double
+trunc (double x)
+{
+  if (x == x)
+    {
+      if (x > 0.0)
+	return floor (x);
+
+      if (x < 0.0)
+	return ceil (x);
+    }
+
+  return x;
+}
+#endif /* not HAVE_TRUNC */
+
+
+/* Remainder function.  */
+#if HAVE_DREM
+#else /* not HAVE_DREM */
+#if HAVE_REMAINDER
+#define drem remainder
+#else /* not HAVE_REMAINDER */
+#define drem fmod
+#endif /* not HAVE_REMAINDER */
+#endif /* not HAVE_DREM */
+
+
+/* Minimum function.  */
+#if HAVE_FMIN
+#else /* not HAVE_FMIN */
+static double
+fmin (double x, double y)
+{
+  if (x != x || y != y)
+    return rs_expr_nan;
+
+  return (x < y) ? x : y;
+}
+#endif /* not HAVE_FMIN */
+
+
+/* Maximum function.  */
+#if HAVE_FMAX
+#else /* not HAVE_FMAX */
+static double
+fmax (double x, double y)
+{
+  if (x != x || y != y)
+    return rs_expr_nan;
+
+  return (x > y) ? x : y;
+}
+#endif /* not HAVE_FMAX */
+
+
+/* Decadic logarithm function.  */
+#if HAVE_LOG10
+#else /* not HAVE_LOG10 */
+#ifndef M_LOG10E
+#define M_LOG10E 0.43429448190325182765
+#endif
+static double
+log10 (double x)
+{
+  return log (x) * M_LOG10E;
+}
+#endif /* not HAVE_LOG10 */
+
+
+/* Binary logarithm function.  */
+#if HAVE_LOG2
+#else /* not HAVE_LOG2 */
+#ifndef M_LOG2E
+#define M_LOG2E 1.4426950408889634074
+#endif
+static double
+log2 (double x)
+{
+  return log (x) * M_LOG2E;
+}
+#endif /* not HAVE_LOG2 */
+
+
+/* Cube root function.  */
+#if HAVE_CBRT
+#else /* not HAVE_CBRT */
+static double
+cbrt (double x)
+{
+  if (x != x)
+    return x;
+
+  return copysign (pow (fabs (x), 1.0 / 3.0), x);
+}
+#endif /* not HAVE_CBRT */
+
+
+/* Hypotenuse function.  */
+#if HAVE_HYPOT
+#else /* not HAVE_HYPOT */
+#if HAVE_LIBGSL
+#define hypot gsl_hypot
+#else /* not HAVE_LIBGSL */
+static double
+hypot (double x, double y)
+{
+  double a, b;
+
+  if (x != x || y != y)
+    return rs_expr_nan;
+
+  x = fabs (x);
+  y = fabs (y);
+
+  if (x > y)
+    {
+      a = x;
+      b = y / x;
+    }
+  else
+    {
+      if (y == 0.0)
+	return 0.0;
+
+      a = y;
+      b = x / y;
+    }
+
+  return a * sqrt (1.0 + b * b);
+}
+#endif /* not HAVE_LIBGSL */
+#endif /* not HAVE_HYPOT */
+
+
+/* Inverse hyperbolic sine function.  */
+#if HAVE_ASINH
+#else /* not HAVE_ASINH */
+#if HAVE_LIBGSL
+#define asinh gsl_asinh
+#else /* not HAVE_LIBGSL */
+static double
+asinh (double x __attribute__ ((unused)))
+{
+  return rs_expr_nan;
+}
+#endif /* not HAVE_LIBGSL */
+#endif /* not HAVE_ASINH */
+
+
+/* Inverse hyperbolic cosine function.  */
+#if HAVE_ACOSH
+#else /* not HAVE_ACOSH */
+#if HAVE_LIBGSL
+#define acosh gsl_acosh
+#else /* not HAVE_LIBGSL */
+static double
+acosh (double x __attribute__ ((unused)))
+{
+  return rs_expr_nan;
+}
+#endif /* not HAVE_LIBGSL */
+#endif /* not HAVE_ACOSH */
+
+
+/* Inverse hyperbolic tangent function.  */
+#if HAVE_ATANH
+#else /* not HAVE_ATANH */
+#if HAVE_LIBGSL
+#define atanh gsl_atanh
+#else /* not HAVE_LIBGSL */
+static double
+atanh (double x __attribute__ ((unused)))
+{
+  return rs_expr_nan;
+}
+#endif /* not HAVE_LIBGSL */
+#endif /* not HAVE_ATANH */
+
+
+/* Error function.  */
+#if HAVE_ERF
+#else /* not HAVE_ERF */
+#if HAVE_LIBGSL
+#define erf gsl_sf_erf
+#else /* not HAVE_LIBGSL */
+static double
+erf (double x __attribute__ ((unused)))
+{
+  return rs_expr_nan;
+}
+#endif /* not HAVE_LIBGSL */
+#endif /* not HAVE_ERF */
+
+
+/* Complementary error function.  */
+#if HAVE_ERFC
+#else /* not HAVE_ERFC */
+#if HAVE_LIBGSL
+#define erfc gsl_sf_erfc
+#else /* not HAVE_LIBGSL */
+static double
+erfc (double x __attribute__ ((unused)))
+{
+  return rs_expr_nan;
+}
+#endif /* not HAVE_LIBGSL */
+#endif /* not HAVE_ERFC */
+
+
+/* Gamma function.  */
+#if HAVE_TGAMMA
+#else /* not HAVE_TGAMMA */
+#if HAVE_LIBGSL
+#define tgamma gsl_sf_gamma
+#else /* not HAVE_LIBGSL */
+#if HAVE_LGAMMA
+static double
+tgamma (double x)
+{
+  double tem = lgamma (x);
+  return signgam * exp (tem);
+}
+#else /* not HAVE_LGAMMA */
+static double
+tgamma (double x __attribute__ ((unused)))
+{
+  return rs_expr_nan;
+}
+#endif /* not HAVE_LGAMMA */
+#endif /* not HAVE_LIBGSL */
+#endif /* not HAVE_TGAMMA */
+%}
+struct rs_expr_sym;
+%struct-type
+%define slot-name e_name
+%define initializer-suffix ,RS_EXPR_NUL,NULL
+%define hash-function-name rs_expr_sym1_hash
+%define lookup-function-name rs_expr_sym1_lookup
+%readonly-tables
+%compare-strncmp
+%enum
+%%
+e,       RS_EXPR_SYM, (void *) &rs_expr_e
+pi,      RS_EXPR_SYM, (void *) &rs_expr_pi
+inf,     RS_EXPR_SYM, (void *) &rs_expr_inf
+nan,     RS_EXPR_SYM, (void *) &rs_expr_nan
+abs,     RS_EXPR_FUN, (void *) fabs
+ceil,    RS_EXPR_FUN, (void *) ceil
+ceiling, RS_EXPR_FUN, (void *) ceil
+floor,   RS_EXPR_FUN, (void *) floor
+trunc,   RS_EXPR_FUN, (void *) trunc
+mod,     RS_EXPR_BIN, (void *) fmod
+rem,     RS_EXPR_BIN, (void *) drem
+min,     RS_EXPR_BIN, (void *) fmin
+max,     RS_EXPR_BIN, (void *) fmax
+sin,     RS_EXPR_FUN, (void *) sin
+cos,     RS_EXPR_FUN, (void *) cos
+tan,     RS_EXPR_FUN, (void *) tan
+asin,    RS_EXPR_FUN, (void *) asin
+arcsin,  RS_EXPR_FUN, (void *) asin
+acos,    RS_EXPR_FUN, (void *) acos
+arccos,  RS_EXPR_FUN, (void *) acos
+atan,    RS_EXPR_FUN, (void *) atan
+arctan,  RS_EXPR_FUN, (void *) atan
+angle,   RS_EXPR_BIN, (void *) atan2
+exp,     RS_EXPR_FUN, (void *) exp
+log,     RS_EXPR_FUN, (void *) log
+ln,      RS_EXPR_FUN, (void *) log
+log10,   RS_EXPR_FUN, (void *) log10
+lg,      RS_EXPR_FUN, (void *) log10
+log2,    RS_EXPR_FUN, (void *) log2
+lb,      RS_EXPR_FUN, (void *) log2
+ld,      RS_EXPR_FUN, (void *) log2
+pow,     RS_EXPR_BIN, (void *) pow
+sqrt,    RS_EXPR_FUN, (void *) sqrt
+cbrt,    RS_EXPR_FUN, (void *) cbrt
+hypot,   RS_EXPR_BIN, (void *) hypot
+sinh,    RS_EXPR_FUN, (void *) sinh
+cosh,    RS_EXPR_FUN, (void *) cosh
+tanh,    RS_EXPR_FUN, (void *) tanh
+asinh,   RS_EXPR_FUN, (void *) asinh
+arsinh,  RS_EXPR_FUN, (void *) asinh
+acosh,   RS_EXPR_FUN, (void *) acosh
+arcosh,  RS_EXPR_FUN, (void *) acosh
+atanh,   RS_EXPR_FUN, (void *) atanh
+artanh,  RS_EXPR_FUN, (void *) atanh
+erf,     RS_EXPR_FUN, (void *) erf
+erfc,    RS_EXPR_FUN, (void *) erfc
+gamma,   RS_EXPR_FUN, (void *) tgamma
