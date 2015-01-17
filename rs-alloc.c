@@ -46,7 +46,6 @@
 /* Procedure to call if memory allocation fails.  */
 void (*rs_out_of_memory_hook) (void) = NULL;
 
-
 /* Cause an abnormal program termination.  */
 static void
 xabort (void)
@@ -57,7 +56,6 @@ xabort (void)
   abort ();
 }
 
-
 /* Validate a pointer.  */
 void *
 rs_confirm (void *p)
@@ -68,7 +66,6 @@ rs_confirm (void *p)
   return p;
 }
 
-
 /* Return the address of a memory block SIZE bytes long.  */
 void *
 rs_malloc (size_t size)
@@ -82,7 +79,6 @@ rs_malloc (size_t size)
   return tem;
 }
 
-
 /* Change the size of the memory block whose address is P to be SIZE.
    If the argument P is a null pointer, a memory block SIZE bytes long
    will be allocated.
@@ -100,7 +96,6 @@ rs_realloc (void *p, size_t size)
   return tem;
 }
 
-
 /* Return the address of a memory block big enough to store a vector of
    ELEM elements, each of size SIZE.  */
 void *
@@ -115,7 +110,6 @@ rs_calloc (size_t elem, size_t size)
   return tem;
 }
 
-
 /* Deallocate the memory block whose address is P.
    It is no error if the argument P is a null pointer.
 
@@ -129,7 +123,6 @@ rs_free (void *p)
   return NULL;
 }
 
-
 /* Duplicate a memory region.  */
 void *
 rs_memdup (void const *p, size_t size)
@@ -143,7 +136,6 @@ rs_memdup (void const *p, size_t size)
   return memcpy (tem, p, size);
 }
 
-
 /* Duplicate the string S.  */
 char *
 rs_strdup (char const *s)
@@ -157,7 +149,6 @@ rs_strdup (char const *s)
   return tem;
 }
 
-
 /* Duplicate the string S but copy not more than N characters.
    The result is always null-terminated.  */
 char *

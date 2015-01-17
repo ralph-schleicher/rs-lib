@@ -240,7 +240,6 @@ static struct node *parse_fac (struct expr *__expr, char **__end);
 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 /* Create a new node.
 
    If TOK is RS_EXPR_NUM, third argument is a floating-point number.
@@ -381,7 +380,6 @@ new_node (struct expr *expr, int tok, ...)
   return node;
 }
 
-
 /* Delete a node (recursively).  */
 static void
 delete_node (struct node *node)
@@ -398,7 +396,6 @@ delete_node (struct node *node)
   free (node);
 }
 
-
 /* Evaluate a conditional expression.  */
 static double
 eval_cond (struct node *cond, struct node *true, struct node *false)
@@ -414,7 +411,6 @@ eval_cond (struct node *cond, struct node *true, struct node *false)
   return val;
 }
 
-
 /* Evaluate a node (recursively).  */
 static double
 eval_node (struct node *node)
@@ -486,7 +482,6 @@ eval_node (struct node *node)
 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 /* Create a new symbolic variable.
 
    Return value is the address of the symbolic variable.
@@ -528,7 +523,6 @@ new_var (struct expr *expr, void *data)
   return var;
 }
 
-
 /* Delete a symbolic variable.  */
 static void
 delete_var (struct var *var)
@@ -539,7 +533,6 @@ delete_var (struct var *var)
   free (var);
 }
 
-
 /* Comparison function for symbolic variables.  */
 static int
 compare_var (void const *a, void const *b)
@@ -556,7 +549,6 @@ compare_var (void const *a, void const *b)
 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 /* Skip over whitespace characters.  */
 static char *
 forward (char const *point)
@@ -567,7 +559,6 @@ forward (char const *point)
   return (char *) point;
 }
 
-
 /* Convert the character C to a sign token code.  */
 static int
 tok_sign (struct expr *expr, int c)
@@ -581,7 +572,6 @@ tok_sign (struct expr *expr, int c)
   return RS_EXPR_NUL;
 }
 
-
 /* Convert the character C to a conditional token code.  */
 static int
 tok_cond (struct expr *expr, int c)
@@ -595,7 +585,6 @@ tok_cond (struct expr *expr, int c)
   return RS_EXPR_NUL;
 }
 
-
 /* Convert the character C to a sum token code.  */
 static int
 tok_sum (struct expr *expr, int c)
@@ -609,7 +598,6 @@ tok_sum (struct expr *expr, int c)
   return RS_EXPR_NUL;
 }
 
-
 /* Convert the character C to a product token code.  */
 static int
 tok_prod (struct expr *expr, int c)
@@ -623,7 +611,6 @@ tok_prod (struct expr *expr, int c)
   return RS_EXPR_NUL;
 }
 
-
 /* Convert the character C to a power token code.  */
 static int
 tok_pow (struct expr *expr, int c)
@@ -634,7 +621,6 @@ tok_pow (struct expr *expr, int c)
   return RS_EXPR_NUL;
 }
 
-
 /* Parse an expression.  */
 static struct node *
 parse_expr (struct expr *expr, char **end)
@@ -642,7 +628,6 @@ parse_expr (struct expr *expr, char **end)
   return parse_cond (expr, end);
 }
 
-
 /* Parse a conditional.  */
 static struct node *
 parse_cond (struct expr *expr, char **end)
@@ -700,7 +685,6 @@ parse_cond (struct expr *expr, char **end)
   return cond;
 }
 
-
 /* Parse a sum.  */
 static struct node *
 parse_sum (struct expr *expr, char **end)
@@ -739,7 +723,6 @@ parse_sum (struct expr *expr, char **end)
   return left;
 }
 
-
 /* Parse a product.  */
 static struct node *
 parse_prod (struct expr *expr, char **end)
@@ -778,7 +761,6 @@ parse_prod (struct expr *expr, char **end)
   return left;
 }
 
-
 /* Parse a power.  */
 static struct node *
 parse_pow (struct expr *expr, char **end)
@@ -818,7 +800,6 @@ parse_pow (struct expr *expr, char **end)
   return left;
 }
 
-
 /* Parse a factor.  */
 static struct node *
 parse_fac (struct expr *expr, char **end)
@@ -1056,7 +1037,6 @@ parse_fac (struct expr *expr, char **end)
 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 /* Set the character for the punctuation token TOK to C.  */
 static int
 set_punct_char (struct expr *expr, va_list argp)
@@ -1113,7 +1093,6 @@ set_punct_char (struct expr *expr, va_list argp)
   return 0;
 }
 
-
 /* Set function for scanning numeric word tokens.  */
 static int
 set_scan_num (struct expr *expr, va_list argp)
@@ -1123,7 +1102,6 @@ set_scan_num (struct expr *expr, va_list argp)
   return 0;
 }
 
-
 /* Set function for scanning symbolic word tokens.  */
 static int
 set_scan_sym (struct expr *expr, va_list argp)
@@ -1133,7 +1111,6 @@ set_scan_sym (struct expr *expr, va_list argp)
   return 0;
 }
 
-
 /* Set comparison function for symbolic variables.  */
 static int
 set_compar_var (struct expr *expr, va_list argp)
@@ -1143,7 +1120,6 @@ set_compar_var (struct expr *expr, va_list argp)
   return 0;
 }
 
-
 /* Set evaluation function for symbolic variables.  */
 static int
 set_eval_var (struct expr *expr, va_list argp)
@@ -1153,7 +1129,6 @@ set_eval_var (struct expr *expr, va_list argp)
   return 0;
 }
 
-
 /* Set destructor function for symbolic variables.  */
 static int
 set_free_var (struct expr *expr, va_list argp)
@@ -1169,7 +1144,6 @@ set_free_var (struct expr *expr, va_list argp)
 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 /* Initialize an arithmetic expression.  */
 static void
 init_expr (struct expr *expr)
@@ -1203,7 +1177,6 @@ init_expr (struct expr *expr)
   expr->arg = NULL;
 }
 
-
 /* Terminate an arithmetic expression.  */
 static void
 term_expr (struct expr *expr)
@@ -1218,7 +1191,6 @@ term_expr (struct expr *expr)
   expr->var = NULL;
 }
 
-
 /* Create an arithmetic expression.  */
 void *
 rs_expr_new (void)
@@ -1232,7 +1204,6 @@ rs_expr_new (void)
   return expr;
 }
 
-
 /* Delete an arithmetic expression.  */
 void
 rs_expr_delete (void *object)
@@ -1247,7 +1218,6 @@ rs_expr_delete (void *object)
   free (expr);
 }
 
-
 /* Set user data structure.  */
 void
 rs_expr_set_data (void *object, void *data)
@@ -1261,7 +1231,6 @@ rs_expr_set_data (void *object, void *data)
   expr->data = data;
 }
 
-
 /* Get user data structure.  */
 void *
 rs_expr_get_data (void *object)
@@ -1275,7 +1244,6 @@ rs_expr_get_data (void *object)
   return expr->data;
 }
 
-
 /* Perform an arithmetic expression control request.  */
 int
 rs_expr_control (void *object, int i, ...)
@@ -1308,7 +1276,6 @@ rs_expr_control (void *object, int i, ...)
   return ans;
 }
 
-
 /* Convert the initial part of STRING to an arithmetic expression.  */
 void *
 rs_expr_scan (void *object, char const *string, char **end)
@@ -1367,7 +1334,6 @@ rs_expr_scan (void *object, char const *string, char **end)
   return expr;
 }
 
-
 /* Default scanner for numeric word tokens.  */
 char *
 rs_expr_scan_num  (void *object, char const *start, int *tok, double *val)
@@ -1393,7 +1359,6 @@ rs_expr_scan_num  (void *object, char const *start, int *tok, double *val)
   return end;
 }
 
-
 /* Default scanner for symbolic word tokens.  */
 #include "rs-expr.gperf.c"
 
@@ -1427,7 +1392,6 @@ rs_expr_scan_sym (void *object, char const *start, int *tok, void **ref)
   return (char *) start;
 }
 
-
 /* Evaluate an arithmetic expression.  */
 static void
 eval_var (void const *a, VISIT order, int level __attribute__ ((unused)))
@@ -1471,7 +1435,6 @@ rs_expr_eval (void *object)
   return eval_node (expr->root);
 }
 
-
 /* Call FUNC for each known symbolic variable.  */
 static void
 walk_var_1 (void const *a, VISIT order, int level __attribute__ ((unused)))

@@ -72,7 +72,6 @@
 #define make_shared(p) ((void *) (((uintptr_t) (p)) | marker))
 #define clear_shared(p) ((void *) (((uintptr_t) (p)) & ~marker))
 
-
 /* Make a multi-dimensional array.
 
    First argument RANK is the array rank, that is the number of array
@@ -201,7 +200,6 @@ rs_make_array (int rank, int const *dim, size_t size, void const *elem)
   return make_array (rank, dim, size, elem);
 }
 
-
 /* Free a multi-dimensional array.
 
    Argument A is a multi-dimensional array.
@@ -225,7 +223,6 @@ rs_free_array (void *a)
   free (ip);
 }
 
-
 /* Return a pointer to the elements of a multi-dimensional array.
 
    Argument A is a multi-dimensional array.
@@ -250,7 +247,6 @@ rs_array_elements (void const *a)
   return clear_shared (*ip);
 }
 
-
 /* Make a two-dimensional array.  */
 void *
 rs_make_array_2d (int y, int x, size_t size, void const *elem)
@@ -263,7 +259,6 @@ rs_make_array_2d (int y, int x, size_t size, void const *elem)
   return make_array (2, dim, size, elem);
 }
 
-
 /* Make a three-dimensional array.  */
 void *
 rs_make_array_3d (int z, int y, int x, size_t size, void const *elem)
@@ -277,7 +272,6 @@ rs_make_array_3d (int z, int y, int x, size_t size, void const *elem)
   return make_array (3, dim, size, elem);
 }
 
-
 /* Make a four-dimensional array.  */
 void *
 rs_make_array_4d (int u, int z, int y, int x, size_t size, void const *elem)
@@ -292,7 +286,6 @@ rs_make_array_4d (int u, int z, int y, int x, size_t size, void const *elem)
   return make_array (4, dim, size, elem);
 }
 
-
 /* Make a five-dimensional array.  */
 void *
 rs_make_array_5d (int v, int u, int z, int y, int x, size_t size, void const *elem)
@@ -308,7 +301,6 @@ rs_make_array_5d (int v, int u, int z, int y, int x, size_t size, void const *el
   return make_array (5, dim, size, elem);
 }
 
-
 /* Make a six-dimensional array.  */
 void *
 rs_make_array_6d (int w, int v, int u, int z, int y, int x, size_t size, void const *elem)

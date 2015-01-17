@@ -140,7 +140,6 @@
 #define copysign _copysign
 #endif /* _MSC_VER */
 
-
 /* Truncation function.  */
 #if HAVE_TRUNC
 #else /* not HAVE_TRUNC */
@@ -160,7 +159,6 @@ trunc (double x)
 }
 #endif /* not HAVE_TRUNC */
 
-
 /* Remainder function.  */
 #if HAVE_DREM
 #else /* not HAVE_DREM */
@@ -171,7 +169,6 @@ trunc (double x)
 #endif /* not HAVE_REMAINDER */
 #endif /* not HAVE_DREM */
 
-
 /* Minimum function.  */
 #if HAVE_FMIN
 #else /* not HAVE_FMIN */
@@ -185,7 +182,6 @@ fmin (double x, double y)
 }
 #endif /* not HAVE_FMIN */
 
-
 /* Maximum function.  */
 #if HAVE_FMAX
 #else /* not HAVE_FMAX */
@@ -199,7 +195,6 @@ fmax (double x, double y)
 }
 #endif /* not HAVE_FMAX */
 
-
 /* Decadic logarithm function.  */
 #if HAVE_LOG10
 #else /* not HAVE_LOG10 */
@@ -213,7 +208,6 @@ log10 (double x)
 }
 #endif /* not HAVE_LOG10 */
 
-
 /* Binary logarithm function.  */
 #if HAVE_LOG2
 #else /* not HAVE_LOG2 */
@@ -227,7 +221,6 @@ log2 (double x)
 }
 #endif /* not HAVE_LOG2 */
 
-
 /* Cube root function.  */
 #if HAVE_CBRT
 #else /* not HAVE_CBRT */
@@ -241,7 +234,6 @@ cbrt (double x)
 }
 #endif /* not HAVE_CBRT */
 
-
 /* Hypotenuse function.  */
 #if HAVE_HYPOT
 #else /* not HAVE_HYPOT */
@@ -278,7 +270,6 @@ hypot (double x, double y)
 #endif /* not HAVE_LIBGSL */
 #endif /* not HAVE_HYPOT */
 
-
 /* Inverse hyperbolic sine function.  */
 #if HAVE_ASINH
 #else /* not HAVE_ASINH */
@@ -293,7 +284,6 @@ asinh (double x __attribute__ ((unused)))
 #endif /* not HAVE_LIBGSL */
 #endif /* not HAVE_ASINH */
 
-
 /* Inverse hyperbolic cosine function.  */
 #if HAVE_ACOSH
 #else /* not HAVE_ACOSH */
@@ -308,7 +298,6 @@ acosh (double x __attribute__ ((unused)))
 #endif /* not HAVE_LIBGSL */
 #endif /* not HAVE_ACOSH */
 
-
 /* Inverse hyperbolic tangent function.  */
 #if HAVE_ATANH
 #else /* not HAVE_ATANH */
@@ -323,7 +312,6 @@ atanh (double x __attribute__ ((unused)))
 #endif /* not HAVE_LIBGSL */
 #endif /* not HAVE_ATANH */
 
-
 /* Error function.  */
 #if HAVE_ERF
 #else /* not HAVE_ERF */
@@ -338,7 +326,6 @@ erf (double x __attribute__ ((unused)))
 #endif /* not HAVE_LIBGSL */
 #endif /* not HAVE_ERF */
 
-
 /* Complementary error function.  */
 #if HAVE_ERFC
 #else /* not HAVE_ERFC */
@@ -353,7 +340,6 @@ erfc (double x __attribute__ ((unused)))
 #endif /* not HAVE_LIBGSL */
 #endif /* not HAVE_ERFC */
 
-
 /* Gamma function.  */
 #if HAVE_TGAMMA
 #else /* not HAVE_TGAMMA */
