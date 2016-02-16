@@ -249,7 +249,7 @@ static struct node *parse_fac (struct expr *__expr, char **__end);
     fourth argument is the right-hand side expression.
    If TOK is RS_EXPR_SYM, third argument is a pointer to a number.
    If TOK is RS_EXPR_SY1, third argument is the address of a function.
-   If TOK is RS_EXPR_FUN, third argument is the address of an unary,
+   If TOK is RS_EXPR_FUN, third argument is the address of an unary
     function and fourth argument is the function argument (an expression).
    If TOK is RS_EXPR_BIN, third argument is the address of a binary
     function, fourth argument is the first function argument, and fifth
