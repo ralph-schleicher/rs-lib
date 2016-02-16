@@ -57,7 +57,9 @@ struct cons
     void *cdr;
   };
 
-#define xcons(obj) ((struct cons *) (obj))
+typedef struct cons cons_t;
+
+#define xcons(obj) ((cons_t *) (obj))
 #define xcar(c) (xcons (c)->car)
 #define xcdr(c) (xcons (c)->cdr)
 #define xsetcar(c,v) (xcar (c) = (void *) (v))
@@ -74,7 +76,7 @@ cons (void const *obj1, void const *obj2)
 {
   void *cell;
 
-  cell = calloc (1, sizeof (struct cons));
+  cell = calloc (1, sizeof (cons_t));
   if (cell != NULL)
     {
       xsetcar (cell, obj1);
@@ -201,7 +203,7 @@ reconc (void *list, void const *tail)
 static void *
 merge (void *l1, void *l2, int (*compar) (void const *, void const *))
 {
-  struct cons tem[1];
+  cons_t tem[1];
   void *list;
 
   list = tem;
