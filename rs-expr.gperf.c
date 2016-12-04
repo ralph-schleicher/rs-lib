@@ -64,7 +64,6 @@ error "gperf generated tables don't work with this execution character set. Plea
    ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
    POSSIBILITY OF SUCH DAMAGE.  */
 
-
 #if defined (__GLIBC__) && __GLIBC__ >= 2
 #ifndef HAVE_TRUNC
 #define HAVE_TRUNC 1
@@ -394,7 +393,7 @@ tgamma (double x __attribute__ ((unused)))
 #endif /* not HAVE_LGAMMA */
 #endif /* not HAVE_LIBGSL */
 #endif /* not HAVE_TGAMMA */
-#line 366 "rs-expr.gperf"
+#line 365 "rs-expr.gperf"
 struct rs_expr_sym;
 /* maximum key range = 85, duplicates = 0 */
 
@@ -480,113 +479,113 @@ rs_expr_sym1_lookup (str, len)
   static const struct rs_expr_sym wordlist[] =
     {
       {"",RS_EXPR_NUL,NULL},
-#line 376 "rs-expr.gperf"
+#line 375 "rs-expr.gperf"
       {"e",       RS_EXPR_SYM, (void *) &rs_expr_e},
       {"",RS_EXPR_NUL,NULL},
-#line 420 "rs-expr.gperf"
+#line 419 "rs-expr.gperf"
       {"erf",     RS_EXPR_FUN, (void *) erf},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
-#line 389 "rs-expr.gperf"
+#line 388 "rs-expr.gperf"
       {"sin",     RS_EXPR_FUN, (void *) sin},
-#line 421 "rs-expr.gperf"
+#line 420 "rs-expr.gperf"
       {"erfc",    RS_EXPR_FUN, (void *) erfc},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
-#line 406 "rs-expr.gperf"
-      {"ld",      RS_EXPR_FUN, (void *) log2},
-#line 399 "rs-expr.gperf"
-      {"exp",     RS_EXPR_FUN, (void *) exp},
-#line 394 "rs-expr.gperf"
-      {"acos",    RS_EXPR_FUN, (void *) acos},
-#line 416 "rs-expr.gperf"
-      {"acosh",   RS_EXPR_FUN, (void *) acosh},
-#line 393 "rs-expr.gperf"
-      {"arcsin",  RS_EXPR_FUN, (void *) asin},
 #line 405 "rs-expr.gperf"
-      {"lb",      RS_EXPR_FUN, (void *) log2},
-#line 380 "rs-expr.gperf"
-      {"abs",     RS_EXPR_FUN, (void *) fabs},
-#line 396 "rs-expr.gperf"
-      {"atan",    RS_EXPR_FUN, (void *) atan},
-#line 418 "rs-expr.gperf"
-      {"atanh",   RS_EXPR_FUN, (void *) atanh},
-#line 395 "rs-expr.gperf"
-      {"arccos",  RS_EXPR_FUN, (void *) acos},
-#line 377 "rs-expr.gperf"
-      {"pi",      RS_EXPR_SYM, (void *) &rs_expr_pi},
-#line 390 "rs-expr.gperf"
-      {"cos",     RS_EXPR_FUN, (void *) cos},
-#line 411 "rs-expr.gperf"
-      {"sinh",    RS_EXPR_FUN, (void *) sinh},
-#line 384 "rs-expr.gperf"
-      {"trunc",   RS_EXPR_FUN, (void *) trunc},
-#line 419 "rs-expr.gperf"
-      {"artanh",  RS_EXPR_FUN, (void *) atanh},
-#line 403 "rs-expr.gperf"
-      {"lg",      RS_EXPR_FUN, (void *) log10},
-#line 400 "rs-expr.gperf"
-      {"log",     RS_EXPR_FUN, (void *) log},
-#line 409 "rs-expr.gperf"
-      {"cbrt",    RS_EXPR_FUN, (void *) cbrt},
-#line 402 "rs-expr.gperf"
-      {"log10",   RS_EXPR_FUN, (void *) log10},
-#line 397 "rs-expr.gperf"
-      {"arctan",  RS_EXPR_FUN, (void *) atan},
-#line 401 "rs-expr.gperf"
-      {"ln",      RS_EXPR_FUN, (void *) log},
-#line 407 "rs-expr.gperf"
-      {"pow",     RS_EXPR_BIN, (void *) pow},
+      {"ld",      RS_EXPR_FUN, (void *) log2},
+#line 398 "rs-expr.gperf"
+      {"exp",     RS_EXPR_FUN, (void *) exp},
+#line 393 "rs-expr.gperf"
+      {"acos",    RS_EXPR_FUN, (void *) acos},
+#line 415 "rs-expr.gperf"
+      {"acosh",   RS_EXPR_FUN, (void *) acosh},
 #line 392 "rs-expr.gperf"
-      {"asin",    RS_EXPR_FUN, (void *) asin},
-#line 414 "rs-expr.gperf"
-      {"asinh",   RS_EXPR_FUN, (void *) asinh},
+      {"arcsin",  RS_EXPR_FUN, (void *) asin},
+#line 404 "rs-expr.gperf"
+      {"lb",      RS_EXPR_FUN, (void *) log2},
+#line 379 "rs-expr.gperf"
+      {"abs",     RS_EXPR_FUN, (void *) fabs},
+#line 395 "rs-expr.gperf"
+      {"atan",    RS_EXPR_FUN, (void *) atan},
 #line 417 "rs-expr.gperf"
+      {"atanh",   RS_EXPR_FUN, (void *) atanh},
+#line 394 "rs-expr.gperf"
+      {"arccos",  RS_EXPR_FUN, (void *) acos},
+#line 376 "rs-expr.gperf"
+      {"pi",      RS_EXPR_SYM, (void *) &rs_expr_pi},
+#line 389 "rs-expr.gperf"
+      {"cos",     RS_EXPR_FUN, (void *) cos},
+#line 410 "rs-expr.gperf"
+      {"sinh",    RS_EXPR_FUN, (void *) sinh},
+#line 383 "rs-expr.gperf"
+      {"trunc",   RS_EXPR_FUN, (void *) trunc},
+#line 418 "rs-expr.gperf"
+      {"artanh",  RS_EXPR_FUN, (void *) atanh},
+#line 402 "rs-expr.gperf"
+      {"lg",      RS_EXPR_FUN, (void *) log10},
+#line 399 "rs-expr.gperf"
+      {"log",     RS_EXPR_FUN, (void *) log},
+#line 408 "rs-expr.gperf"
+      {"cbrt",    RS_EXPR_FUN, (void *) cbrt},
+#line 401 "rs-expr.gperf"
+      {"log10",   RS_EXPR_FUN, (void *) log10},
+#line 396 "rs-expr.gperf"
+      {"arctan",  RS_EXPR_FUN, (void *) atan},
+#line 400 "rs-expr.gperf"
+      {"ln",      RS_EXPR_FUN, (void *) log},
+#line 406 "rs-expr.gperf"
+      {"pow",     RS_EXPR_BIN, (void *) pow},
+#line 391 "rs-expr.gperf"
+      {"asin",    RS_EXPR_FUN, (void *) asin},
+#line 413 "rs-expr.gperf"
+      {"asinh",   RS_EXPR_FUN, (void *) asinh},
+#line 416 "rs-expr.gperf"
       {"arcosh",  RS_EXPR_FUN, (void *) acosh},
       {"",RS_EXPR_NUL,NULL},
-#line 379 "rs-expr.gperf"
+#line 378 "rs-expr.gperf"
       {"nan",     RS_EXPR_SYM, (void *) &rs_expr_nan},
-#line 412 "rs-expr.gperf"
+#line 411 "rs-expr.gperf"
       {"cosh",    RS_EXPR_FUN, (void *) cosh},
-#line 410 "rs-expr.gperf"
+#line 409 "rs-expr.gperf"
       {"hypot",   RS_EXPR_BIN, (void *) hypot},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
-#line 387 "rs-expr.gperf"
+#line 386 "rs-expr.gperf"
       {"min",     RS_EXPR_BIN, (void *) fmin},
-#line 381 "rs-expr.gperf"
+#line 380 "rs-expr.gperf"
       {"ceil",    RS_EXPR_FUN, (void *) ceil},
-#line 398 "rs-expr.gperf"
+#line 397 "rs-expr.gperf"
       {"angle",   RS_EXPR_BIN, (void *) atan2},
       {"",RS_EXPR_NUL,NULL},
-#line 382 "rs-expr.gperf"
+#line 381 "rs-expr.gperf"
       {"ceiling", RS_EXPR_FUN, (void *) ceil},
-#line 391 "rs-expr.gperf"
+#line 390 "rs-expr.gperf"
       {"tan",     RS_EXPR_FUN, (void *) tan},
-#line 408 "rs-expr.gperf"
+#line 407 "rs-expr.gperf"
       {"sqrt",    RS_EXPR_FUN, (void *) sqrt},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
       {"",RS_EXPR_NUL,NULL},
-#line 385 "rs-expr.gperf"
+#line 384 "rs-expr.gperf"
       {"mod",     RS_EXPR_BIN, (void *) fmod},
-#line 404 "rs-expr.gperf"
+#line 403 "rs-expr.gperf"
       {"log2",    RS_EXPR_FUN, (void *) log2},
       {"",RS_EXPR_NUL,NULL},
-#line 415 "rs-expr.gperf"
+#line 414 "rs-expr.gperf"
       {"arsinh",  RS_EXPR_FUN, (void *) asinh},
       {"",RS_EXPR_NUL,NULL},
-#line 386 "rs-expr.gperf"
+#line 385 "rs-expr.gperf"
       {"rem",     RS_EXPR_BIN, (void *) drem},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
-#line 378 "rs-expr.gperf"
+#line 377 "rs-expr.gperf"
       {"inf",     RS_EXPR_SYM, (void *) &rs_expr_inf},
-#line 413 "rs-expr.gperf"
+#line 412 "rs-expr.gperf"
       {"tanh",    RS_EXPR_FUN, (void *) tanh},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
       {"",RS_EXPR_NUL,NULL},
-#line 388 "rs-expr.gperf"
+#line 387 "rs-expr.gperf"
       {"max",     RS_EXPR_BIN, (void *) fmax},
       {"",RS_EXPR_NUL,NULL},
-#line 422 "rs-expr.gperf"
+#line 421 "rs-expr.gperf"
       {"gamma",   RS_EXPR_FUN, (void *) tgamma},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
@@ -595,7 +594,7 @@ rs_expr_sym1_lookup (str, len)
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
       {"",RS_EXPR_NUL,NULL}, {"",RS_EXPR_NUL,NULL},
-#line 383 "rs-expr.gperf"
+#line 382 "rs-expr.gperf"
       {"floor",   RS_EXPR_FUN, (void *) floor}
     };
 
