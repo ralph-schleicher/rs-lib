@@ -33,16 +33,23 @@
 
 #if HAVE_CONFIG_H
 #include <config.h>
-#else /* not HAVE_CONFIG_H */
+#endif
+
 #ifdef _MSC_VER
+#ifndef HAVE_RENAME
 #define HAVE_RENAME 1
+#endif
 #else /* not _MSC_VER */
 #ifdef __LCC__
+#ifndef HAVE_RENAME
 #define HAVE_RENAME 1
+#endif
 #else /* not __LCC__ */
+#ifndef HAVE_UNISTD_H
+#define HAVE_UNISTD_H 1
+#endif
 #endif /* not __LCC__ */
 #endif /* not _MSC_VER */
-#endif /* not HAVE_CONFIG_H */
 
 #include <stdlib.h>
 #include <string.h>
