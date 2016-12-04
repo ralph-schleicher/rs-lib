@@ -49,16 +49,26 @@
 #include <errno.h>
 
 #include "rs-cons.h"
+#ifdef __GNUC__
+#define static_inline static inline
+#else /* not __GNUC__ */
+#ifdef _MSC_VER
+#define static_inline static __inline
+#else /* not _MSC_VER */
+#define static_inline static
+#endif /* not _MSC_VER */
+#endif /* not __GNUC__ */
 
 /* Cons cell object data structure.  */
+typedef struct cons cons_t;
+
 struct cons
   {
     void *car;
     void *cdr;
   };
 
-typedef struct cons cons_t;
-
+/* Accessor macros.  */
 #define xcons(obj) ((cons_t *) (obj))
 #define xcar(c) (xcons (c)->car)
 #define xcdr(c) (xcons (c)->cdr)
@@ -71,7 +81,7 @@ comp (void const *a, void const *b)
   return (a > b) - (a < b);
 }
 
-static void *
+static_inline void *
 cons (void const *obj1, void const *obj2)
 {
   void *cell;
@@ -86,19 +96,19 @@ cons (void const *obj1, void const *obj2)
   return cell;
 }
 
-static void *
+static_inline void *
 car_safe (void const *cell)
 {
   return (cell != NULL ? xcar (cell) : NULL);
 }
 
-static void *
+static_inline void *
 cdr_safe (void const *cell)
 {
   return (cell != NULL ? xcdr (cell) : NULL);
 }
 
-static int
+static_inline int
 length (void const *list)
 {
   void *tail;
@@ -110,7 +120,7 @@ length (void const *list)
   return n;
 }
 
-static void
+static_inline void
 destroy (void *list)
 {
   void *tem;
@@ -125,7 +135,7 @@ destroy (void *list)
 }
 
 /* Argument N has to be a non-negative number.  */
-static void *
+static_inline void *
 nthcdr (int n, void const *list)
 {
   void *tail = (void *) list;
@@ -137,7 +147,7 @@ nthcdr (int n, void const *list)
 }
 
 /* Argument LIST has to be non-empty and N has to be a positive number.  */
-static void *
+static_inline void *
 last (void const *list, int n)
 {
   void *tail = (void *) list;
@@ -163,7 +173,7 @@ last (void const *list, int n)
   return nthcdr (n, list);
 }
 
-static void *
+static_inline void *
 conc (void *list, void const *tail)
 {
   void *tem;
@@ -180,7 +190,7 @@ conc (void *list, void const *tail)
   return list;
 }
 
-static void *
+static_inline void *
 reconc (void *list, void const *tail)
 {
   void *work, *tem;
@@ -200,7 +210,7 @@ reconc (void *list, void const *tail)
   return list;
 }
 
-static void *
+static_inline void *
 merge (void *l1, void *l2, int (*compar) (void const *, void const *))
 {
   cons_t tem[1];
@@ -229,7 +239,7 @@ merge (void *l1, void *l2, int (*compar) (void const *, void const *))
   return xcdr (tem);
 }
 
-static void *
+static_inline void *
 sort (void *list, int (*compar) (void const *, void const *))
 {
   void *l1, *l2;
@@ -261,7 +271,7 @@ sort (void *list, int (*compar) (void const *, void const *))
   return merge (sort (l1, compar), sort (l2, compar), compar);
 }
 
-static void *
+static_inline void *
 assoc (void const *key, void const *list, int (*f) (void const *, void const *))
 {
   void *tail, *pair;
@@ -279,7 +289,7 @@ assoc (void const *key, void const *list, int (*f) (void const *, void const *))
   return NULL;
 }
 
-static void *
+static_inline void *
 assoc_if (int (*p) (void const *), void const *list)
 {
   void *tail, *pair;
@@ -297,7 +307,7 @@ assoc_if (int (*p) (void const *), void const *list)
   return NULL;
 }
 
-static void *
+static_inline void *
 assoc_if_not (int (*p) (void const *), void const *list)
 {
   void *tail, *pair;
