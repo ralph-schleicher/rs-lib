@@ -1340,7 +1340,8 @@ rs_expr_scan_num  (void *object, char const *start, int *tok, double *val)
   char *end;
   int tem;
 
-  object = NULL;
+  /* Not used.  */
+  (void) object;
 
   if (! isdigit (CHAR_SUBSCRIPT (*start)))
     return (char *) start;
