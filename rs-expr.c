@@ -1369,7 +1369,8 @@ rs_expr_scan_sym (void *object, char const *start, int *tok, void **ref)
   char *end;
   int len;
 
-  object = NULL;
+  /* Not used.  */
+  (void) object;
 
   if (! isalpha (CHAR_SUBSCRIPT (*start)))
     return (char *) start;
