@@ -31,7 +31,6 @@
    ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
    POSSIBILITY OF SUCH DAMAGE.  */
 
-
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -40,32 +39,29 @@
 #include <limits.h>
 #include <errno.h>
 
-#if HAVE_STDINT_H
-#include <stdint.h>
-#endif /* HAVE_STDINT_H */
-#if HAVE_INTTYPES_H
-#include <inttypes.h>
-#endif /* HAVE_INTTYPES_H */
-
-#ifndef SIZE_MAX
-#if SIZEOF_SIZE_T == SIZEOF_INT && SIZEOF_SIZE_T > 0
-#define SIZE_MAX UINT_MAX
-#else /* SIZEOF_SIZE_T != SIZEOF_INT */
-#if SIZEOF_SIZE_T == SIZEOF_LONG_INT && SIZEOF_SIZE_T > 0
-#define SIZE_MAX ULONG_MAX
-#else /* SIZEOF_SIZE_T != SIZEOF_LONG_INT */
-#error "Don't know how to define 'SIZE_MAX'"
-#endif /* SIZEOF_SIZE_T != SIZEOF_LONG_INT */
-#endif /* SIZEOF_SIZE_T != SIZEOF_INT */
-#endif /* not SIZE_MAX */
-
 #include "rs-array.h"
 
-#ifdef __GNUC__
-#define void_t void
-#else /* not __GNUC__ */
-#define void_t char
-#endif /* not __GNUC__ */
+#ifndef SIZE_MAX
+#define SIZE_MAX ((size_t) -1)
+#endif
+
+#ifdef _MSC_VER
+/* Microsoft Visual C.  */
+#if _MSC_VER >= 1600
+#include <stdint.h>
+#else /* _MSC_VER < 1600 */
+#include <stddef.h>
+#ifndef _UINTPTR_T_DEFINED
+#ifdef _WIN64
+typedef unsigned __int64 uintptr_t;
+#else /* not _WIN64 */
+typedef unsigned long int uintptr_t;
+#endif /* not _WIN64 */
+#endif /* _UINTPTR_T_DEFINED */
+#endif /* _MSC_VER < 1600 */
+#else /* not _MSC_VER */
+#include <stdint.h>
+#endif /* not _MSC_VER */
 
 #define marker ((uintptr_t) 1)
 #define is_shared(p) (((uintptr_t) (p)) & marker)
@@ -92,7 +88,7 @@
 static void *
 make_array (int rank, int const *dim, size_t size, void const *elem)
 {
-  void_t *a;
+  char *a;
   void **ip;
   size_t n;
   int i;
@@ -129,14 +125,14 @@ make_array (int rank, int const *dim, size_t size, void const *elem)
   if (elem == NULL)
     {
       /* Allocate memory for the array elements.  */
-      a = (void_t *) calloc (n, size);
+      a = (char *) calloc (n, size);
       if (a == NULL)
 	return NULL;
     }
   else
     {
       /* Make a shared array.  */
-      a = (void_t *) elem;
+      a = (char *) elem;
     }
 
   /* Count number of indirect pointers.  */
