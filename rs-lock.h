@@ -44,13 +44,25 @@
 
 RS_LOCK_BEGIN_DECL
 
-/* Attempt to lock the file FILE_NAME.  */
+/* Attempt to lock the file FILE_NAME.  Try to break any existing lock
+   if FORCE is non-zero.
+
+   Return value is 0 if the file could be locked, 1 if another process
+   owns the lock, and -1 if an error occurs.  */
 extern int rs_lock_file (char const *__file_name, int __force);
 
-/* Unlock the file FILE_NAME.  */
+/* Unlock the file FILE_NAME.  A lock can only be removed by the owner
+   of the lock.
+
+   Return value is 0 if the lock could be removed, 1 if another process
+   owns the lock, and -1 if an error occurs.  */
 extern int rs_unlock_file (char const *__file_name);
 
-/* Test if file FILE_NAME is locked.  */
+/* Test if file FILE_NAME is locked.
+
+   Return value is 0 if the file is not locked or if the lock is
+   obsolete, 1 if another process owns the lock, 2 if the current
+   process owns the lock, and -1 if an error occurs.  */
 extern int rs_file_locked_p (char const *__file_name);
 
 RS_LOCK_END_DECL

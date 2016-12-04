@@ -835,14 +835,14 @@ __rs_list_restack (void **addr1, void **addr2)
 /* Remove the elements designated by OFFSET and LENGTH from LIST, and
    replace them with SUBST (a list).  Return value is the list of
    removed elements.  If OFFSET is negative, count from the end of the
-   list (see 'last').  If OFFSET is arbitrarily large, operate at the
+   list (see ‘last’).  If OFFSET is arbitrarily large, operate at the
    end of LIST.  Likewise, if OFFSET is arbitrarily small, operate at
    the beginning of LIST.  If LENGTH is positive, remove up to LENGTH
    elements from OFFSET onwards.  If LENGTH is negative, remove the
    elements from OFFSET onwards except for the last -LENGTH elements
    of LIST.  In that case, if the positions specified by OFFSET and
-   LENGTH overlap, the return value is the empty list and 'errno' is
-   set to 'ERANGE'.  */
+   LENGTH overlap, the return value is the empty list and ‘errno’ is
+   set to ‘ERANGE’.  */
 void *
 __rs_list_splice (void **addr, int offs, int len, void const *subst)
 {

@@ -91,10 +91,10 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-/* Use this macro if an array subscript C is of type 'char'.  */
+/* Use this macro if an array subscript C is of type ‘char’.  */
 #define CHAR_SUBSCRIPT(c) ((unsigned char) (c))
 
-/* Set the 'errno' variable to the error code E
+/* Set the ‘errno’ variable to the error code E
    and return back to the caller.  */
 #define set_errno_and_return(e)						\
 do									\
@@ -104,7 +104,7 @@ do									\
   }									\
 while (0)
 
-/* Set the 'errno' variable to the error code E
+/* Set the ‘errno’ variable to the error code E
    and return VAL back to the caller.  */
 #define set_errno_and_return_value(e,val)				\
 do									\

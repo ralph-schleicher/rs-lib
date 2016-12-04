@@ -92,19 +92,7 @@ gcd (size_t a, size_t b)
   return u[2];
 }
 
-/* In-place matrix transposition.
-
-   First argument A is the address of a memory block containing a
-    two-dimensional array, that is a matrix.  The matrix elements
-    have to be stored continuously in either row-major (like C) or
-    column-major (like Fortran) order.
-   Second argument M is the number of matrix rows.
-   Third argument N is the number of matrix columns.
-   Fourth argument S is the size of a matrix element.
-
-   Return value is A on success, that means the elements of the
-   matrix are transposed.  In case of an error, a null pointer is
-   returned and 'errno' is set to describe the error.  */
+/* In-place matrix transposition.  */
 void *
 rs_matrix_transpose (void *a, size_t m, size_t n, size_t s)
 {

@@ -47,8 +47,8 @@ RS_BACKUP_BEGIN_DECL
 /* Backup methods.  */
 enum
   {
-    /* Evaluate 'VERSION_CONTROL' environment variable.
-       If it is not set, fall back to 'existing'.  */
+    /* Evaluate ‘VERSION_CONTROL’ environment variable.
+       If it is not set, fall back to ‘existing’.  */
     RS_BACKUP_DEFAULT = 0,
 
     /* Always make simple backups.  */
@@ -71,7 +71,7 @@ enum
    Second argument METHOD is the backup method.
 
    Return value is 0 on success, that means FILE_NAME is out of the way.
-   In case of an error, a value of -1 is returned and 'errno' is set to
+   In case of an error, a value of -1 is returned and ‘errno’ is set to
    describe the error.  */
 extern int rs_backup_file (char const *__file_name, int __method);
 

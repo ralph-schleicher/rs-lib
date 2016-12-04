@@ -326,9 +326,7 @@ lock_owner (char const *lock_file_name)
   return 0;
 }
 
-/* Attempt to lock the file FILE_NAME.  Try to break any existing lock
-   if FORCE is non-zero.  Return value is 0 if the file could be locked,
-   1 if another process owns the lock, and -1 if an error occurs.  */
+/* Attempt to lock the file FILE_NAME.  */
 int
 rs_lock_file (char const *file_name, int force)
 {
@@ -372,9 +370,7 @@ rs_lock_file (char const *file_name, int force)
   return -1;
 }
 
-/* Unlock the file FILE_NAME.  A lock can only be removed by the owner
-   of the lock.  Return value is 0 if the lock could be removed, 1 if
-   another process owns the lock, and -1 if an error occurs.  */
+/* Unlock the file FILE_NAME.  */
 int
 rs_unlock_file (char const *file_name)
 {
@@ -396,10 +392,7 @@ rs_unlock_file (char const *file_name)
   return unlink (lock_file_name);
 }
 
-/* Test if file FILE_NAME is locked.  Return value is 0 if the file is
-   not locked or if the lock is obsolete, 1 if another process owns the
-   lock, 2 if the current process owns the lock, and -1 if an error
-   occurs.  */
+/* Test if file FILE_NAME is locked.  */
 int
 rs_file_locked_p (char const *file_name)
 {

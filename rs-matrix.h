@@ -46,7 +46,19 @@
 
 RS_MATRIX_BEGIN_DECL
 
-/* In-place matrix transposition.  */
+/* In-place matrix transposition.
+
+   First argument A is the address of a memory block containing a
+    two-dimensional array, that is a matrix.  The matrix elements
+    have to be stored continuously in either row-major (like C) or
+    column-major (like Fortran) order.
+   Second argument M is the number of matrix rows.
+   Third argument N is the number of matrix columns.
+   Fourth argument S is the size of a matrix element.
+
+   Return value is A on success, that means the elements of the
+   matrix are transposed.  In case of an error, a null pointer is
+   returned and ‘errno’ is set to describe the error.  */
 extern void *rs_matrix_transpose (void *__a, size_t __m, size_t __n, size_t __s);
 
 RS_MATRIX_END_DECL
