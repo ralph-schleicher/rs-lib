@@ -33,22 +33,53 @@
 
 #if HAVE_CONFIG_H
 #include <config.h>
-#else /* not HAVE_CONFIG_H */
+#endif
+
 #ifdef _MSC_VER
+#ifndef HAVE_FCNTL_H
 #define HAVE_FCNTL_H 1
+#endif
+#ifndef HAVE_PROCESS_H
 #define HAVE_PROCESS_H 1
+#endif
+#ifndef ssize_t
 #define ssize_t int
+#endif
+#ifndef pid_t
 #define pid_t int
+#endif
 #else /* not _MSC_VER */
 #ifdef __LCC__
+#ifndef HAVE_FCNTL_H
 #define HAVE_FCNTL_H 1
+#endif
+#ifndef HAVE_PROCESS_H
 #define HAVE_PROCESS_H 1
+#endif
+#ifndef ssize_t
 #define ssize_t int
+#endif
+#ifndef pid_t
 #define pid_t int
+#endif
 #else /* not __LCC__ */
+#ifndef HAVE_UNISTD_H
+#define HAVE_UNISTD_H 1
+#endif
+#ifndef HAVE_FCNTL_H
+#define HAVE_FCNTL_H 1
+#endif
+#ifndef HAVE_SYMLINK
+#define HAVE_SYMLINK 1
+#endif
+#ifndef HAVE_READLINK
+#define HAVE_READLINK 1
+#endif
+#ifndef HAVE_KILL
+#define HAVE_KILL 1
+#endif
 #endif /* not __LCC__ */
 #endif /* not _MSC_VER */
-#endif /* not HAVE_CONFIG_H */
 
 #ifdef __GNUC__
 #ifndef alloca
@@ -106,6 +137,10 @@ extern void *alloca (size_t __n);
 #endif /* _WIN32 */
 
 #include "rs-lock.h"
+
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
 
 /* Buffer size in bytes (including the terminating null character) to
    store the lock file name associated with FILE_NAME.  */
