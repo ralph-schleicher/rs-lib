@@ -44,18 +44,12 @@
 #include <string.h>
 #include <errno.h>
 #include <limits.h>
-#if HAVE_STDINT_H
-#include <stdint.h>
-#endif /* HAVE_STDINT_H */
-#if HAVE_INTTYPES_H
-#include <inttypes.h>
-#endif /* HAVE_INTTYPES_H */
+
+#include "rs-matrix.h"
 
 #ifndef SIZE_MAX
 #define SIZE_MAX ((size_t) -1)
 #endif
-
-#include "rs-matrix.h"
 
 /* Transposition permutation for mapping linear indices of matrix
    elements from the old (original) storage location KO to the new
