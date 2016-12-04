@@ -44,10 +44,59 @@
 
 RS_ARRAY_BEGIN_DECL
 
-/* Make a multi-dimensional array.  */
+/* Make a multi-dimensional array.
+
+   First argument RANK is the array rank, that is the number of array
+    dimensions.  Value has to be greater than or equal to 2.
+   Second argument DIM are the array dimensions (a vector of positive
+    numbers).  Dimensions are in increasing order, that is the first
+    vector element of DIM defines the number of array elements in the
+    first dimension.
+   Third argument SIZE is the size of a single array element.  Value
+    has to be a positive number.
+   Fourth argument ELEM is a pointer to the array elements.  If ELEM
+    is non-null, make a shared array.  Otherwise, allocate a memory
+    region for the array elements.
+
+   Return value is the multi-dimensional array.  If an error occurs,
+   the return value is a null pointer and ‘errno’ is set to describe
+   the error.  */
 extern void *rs_make_array (int __rank, int const *__dim, size_t __size, void const *__elem);
 
-/* Make a two-dimensional array.  */
+/* Free a multi-dimensional array.
+
+   Argument A is a multi-dimensional array.
+
+   If A is a shared array, the memory region for the array elements is
+   not freed.  It is no error if A is a null pointer.  */
+extern void rs_free_array (void *__a);
+
+/* Return a pointer to the elements of a multi-dimensional array.
+
+   Argument A is a multi-dimensional array.
+
+   Return value is the address of the first array element of A.  If an
+   error occurs, the return value is a null pointer and ‘errno’ is set
+   to describe the error.  */
+extern void *rs_array_elements (void const *__a);
+
+/* Make a two-dimensional array.
+
+   This is a convenience function wrapper for ‘rs_make_array’.
+   The statement
+
+        double **a;
+
+        a = rs_make_array_2d (m, n, sizeof (double), NULL);
+
+   is equivalent to
+
+        double **a;
+        int dim[2] = {n, m};
+
+        a = rs_make_array (2, dim, sizeof (double), NULL);
+
+   Please note the reserve order of the array dimensions.  */
 extern void *rs_make_array_2d (int __y, int __x, size_t __size, void const *__elem);
 
 /* Make a three-dimensional array.  */
@@ -61,12 +110,6 @@ extern void *rs_make_array_5d (int __v, int __u, int __z, int __y, int __x, size
 
 /* Make a six-dimensional array.  */
 extern void *rs_make_array_6d (int __w, int __v, int __u, int __z, int __y, int __x, size_t __size, void const *__elem);
-
-/* Free a multi-dimensional array.  */
-extern void rs_free_array (void *__a);
-
-/* Return a pointer to the elements of a multi-dimensional array.  */
-extern void *rs_array_elements (void const *__a);
 
 RS_ARRAY_END_DECL
 

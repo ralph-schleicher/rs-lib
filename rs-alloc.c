@@ -48,7 +48,7 @@
 #endif
 #endif /* __GLIBC__ */
 
-/* Procedure to call if memory allocation fails.  */
+/* Function to be called if memory allocation fails.  */
 void (*rs_out_of_memory_hook) (void) = NULL;
 
 /* Cause an abnormal program termination.  */
@@ -94,7 +94,7 @@ rs_realloc (void *p, size_t size)
 {
   void *tem;
 
-  tem = (p == NULL) ? malloc (size) : realloc (p, size);
+  tem = (p == NULL ? malloc (size) : realloc (p, size));
   if (tem == NULL)
     xabort ();
 
@@ -115,10 +115,10 @@ rs_calloc (size_t elem, size_t size)
   return tem;
 }
 
-/* Deallocate the memory block whose address is P.
+/* Return the memory block designated by P back to the system.
    It is no error if the argument P is a null pointer.
 
-   The return value is alsways a null pointer.  */
+   The return value is always a null pointer.  */
 void *
 rs_free (void *p)
 {
