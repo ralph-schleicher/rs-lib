@@ -36,7 +36,6 @@
    Compile with best optimization.  Otherwise, there is a big speed
    penalty.  For GCC, the optimization option -O3 is recommended.  */
 
-
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
