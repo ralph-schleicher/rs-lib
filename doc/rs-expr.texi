@@ -1,0 +1,642 @@
+\input texinfo.tex
+
+@c %**start of header
+@setfilename rs-expr.info
+@settitle rs-expr
+
+@set PACKAGE rs-expr
+@set VERSION 2011-02-26
+
+@syncodeindex ky cp
+@syncodeindex pg cp
+@syncodeindex vr fn
+@syncodeindex tp fn
+
+@iftex
+@finalout
+@end iftex
+
+@afourpaper
+@setchapternewpage on
+@setcontentsaftertitlepage
+@c %**end of header
+
+@copying
+This is the @code{rs-expr} @value{VERSION} reference manual.
+
+@quotation
+Copyright @copyright{} 1993--2011 Ralph Schleicher
+
+Verbatim copying and distribution of this entire article are permitted
+worldwide, without royalty, in any medium, provided this notice, and
+the copyright notice, are preserved.
+@end quotation
+@end copying
+
+@dircategory Libraries
+@direntry
+* RS-Expr: (rs-expr).           Arithmetic expressions.
+@end direntry
+
+@ifnothtml
+@titlepage
+@title Arithmetic Expressions
+@subtitle @code{rs-expr} @value{VERSION}
+
+@author Ralph Schleicher
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c Table of contents.
+@contents
+@end ifnothtml
+
+@ifnottex
+@node Top, Arithmetic Expressions, (dir), (dir)
+@top Arithmetic Expressions
+
+@insertcopying
+@end ifnottex
+
+@menu
+* Arithmetic Expressions::
+* Concept Index::
+* Symbol Index::
+@end menu
+
+
+@node Arithmetic Expressions, Concept Index, Top, Top
+@chapter Arithmetic Expressions
+
+The @code{rs-expr} library contains functions to read and evaluate
+arithmetic expressions at program run-time.  All symbols described in
+this chapter are defined in the header file @file{rs-expr.h}.
+
+@menu
+* Expression Objects::
+* Parsing Expressions::
+* Evaluating Expressions::
+* Lexical Analyzer::
+* Symbolic Variables::
+@end menu
+
+
+@node Expression Objects, Parsing Expressions, Arithmetic Expressions, Arithmetic Expressions
+@section Expression Objects
+
+@deftypefun {void *} rs_expr_new (void)
+Create an arithmetic expression.
+
+Return value is the address of a new arithmetic expression object.
+In case of an error, a null pointer is returned and @code{errno} is
+set to describe the error.
+@end deftypefun
+
+@deftypefun void rs_expr_delete (void *@var{expr})
+Delete an arithmetic expression.
+
+Argument @var{expr} is the address of an arithmetic expression object.
+It is no error if the @var{expr} is a null pointer.
+@end deftypefun
+
+
+@node Parsing Expressions, Evaluating Expressions, Expression Objects, Arithmetic Expressions
+@section Parsing Expressions
+
+@deftypefun {void *} rs_expr_scan (void *@var{expr}, char const *@var{string}, char **@var{end})
+Convert the initial part of @var{string} to an arithmetic expression.
+
+First argument @var{expr} is an arithmetic expression object.  The
+arithmetic expression is scanned and parsed in the scope of @var{expr}.
+If @var{expr} is a null pointer, a new arithmetic expression object is
+created.  Otherwise, the previous arithmetic expression is replaced by
+the new arithmetic expression.
+
+Any leading whitespace characters in @var{string} are discarded.  Which
+characters are whitespace is determined by the @code{isspace} function.
+
+If the third argument @var{end} is not a null pointer, a pointer to the
+tail of the string is stored in @code{*@var{end}}.  Otherwise, it is an
+error if any non-whitespace character remains after the end of the
+arithmetic expression.
+
+The normal return value is the address of the arithmetic expression
+object @var{expr}.  If @var{string} is a null pointer, empty, contains
+only whitespace characters, does not contain an initial substring that
+has the expected syntax of an arithmetic expression, or if any other
+error occurs, no conversion is performed.  In this case,
+@code{rs_expr_scan} returns a null pointer, the value stored in
+@code{*@var{end}} is the value of @var{string}, and the previous
+arithmetic expression stored in @var{expr} is no longer valid.
+@end deftypefun
+
+
+@node Evaluating Expressions, Lexical Analyzer, Parsing Expressions, Arithmetic Expressions
+@section Evaluating Expressions
+
+@deftypefun double rs_expr_eval (void *@var{expr})
+Evaluate an arithmetic expression.
+
+Argument @var{expr} is the address of an arithmetic expression object.
+
+Return value is the numeric value of the current arithmetic expression
+stored in the arithmetic expression object @var{expr}.  If @var{expr} is
+a null pointer or if no arithmetic expression is stored in @var{expr}, a
+value of zero is returned and @code{errno} is set to @code{EINVAL}.
+@end deftypefun
+
+
+@node Lexical Analyzer, Symbolic Variables, Evaluating Expressions, Arithmetic Expressions
+@section Lexical Analyzer
+
+The lexical analyzer (@dfn{lexer} for short) converts input data into
+tokens.  This section documents the meaning of each token and how the
+user can adjust the lexer.
+
+@menu
+* Token Codes::
+* Lexer Tuning::
+* Existing Scanners::
+@end menu
+
+
+@node Token Codes, Lexer Tuning, Lexical Analyzer, Lexical Analyzer
+@subsection Token Codes
+
+Each token has a unique token code.  The lexer distinguishes between
+@dfn{punctuation tokens} and @dfn{word tokens}.  A punctuation token is
+a printing character that is not an alphabetic character (a letter), a
+decimal digit, or a whitespace character.  A word token is a sequence of
+one or more printing characters not beginning with a character of the
+punctuation token character set.
+@cindex punctuation tokens
+@cindex tokens, punctuation
+@cindex word tokens
+@cindex tokens, word
+
+These symbolic constants of data type @code{int} are defined for
+punctuation tokens:
+@cindex punctuation token codes
+@cindex token codes, punctuation
+
+@vtable @code
+@item RS_EXPR_POS
+Unary plus operator; default @code{+}.
+@cindex unary plus operator
+@cindex operator, unary plus
+
+@item RS_EXPR_NEG
+Unary minus operator; default @code{-}.
+@cindex unary minus operator
+@cindex operator, unary minus
+
+@item RS_EXPR_ADD
+Plus operator; default @code{+}.
+@cindex plus operator
+@cindex operator, plus
+
+@item RS_EXPR_SUB
+Minus operator; default @code{-}.
+@cindex minus operator
+@cindex operator, minus
+
+@item RS_EXPR_MUL
+Multiplication operator; default @code{*}.
+@cindex multiplication operator
+@cindex operator, multiplication
+
+@item RS_EXPR_DIV
+Division operator; default @code{/}.
+@cindex division operator
+@cindex operator, division
+
+@item RS_EXPR_POW
+Exponentiation operator; default @code{^}.
+@cindex exponentiation operator
+@cindex operator, exponentiation
+
+@item RS_EXPR_IF1
+@itemx RS_EXPR_IF2
+Conditional expression operators; default @code{?} and @code{:}.
+@cindex conditional operator
+@cindex operator, conditional
+
+@item RS_EXPR_BEG
+Beginning of group; default @code{(}.
+@cindex beginning of group
+@cindex group, beginning
+@cindex opening parenthesis
+@cindex parenthesis, opening
+
+@item RS_EXPR_END
+End of group; default @code{)}.
+@cindex end of group
+@cindex group, end
+@cindex closing parenthesis
+@cindex parenthesis, closing
+
+@item RS_EXPR_SEP
+List separator; default @code{,}.
+@cindex list separator
+@cindex separator, list
+@end vtable
+
+These symbolic constants of data type @code{int} are defined for word
+tokens:
+@cindex word token codes
+@cindex token codes, word
+
+@vtable @code
+@item RS_EXPR_NUM
+Numeric constant.
+@cindex numeric constant
+@cindex constant, numeric
+
+@item RS_EXPR_SYM
+@itemx RS_EXPR_SY1
+Symbolic constant.
+@cindex symbolic constant
+@cindex constant, symbolic
+
+@item RS_EXPR_FUN
+Unary function.
+@cindex unary function
+@cindex function, unary
+
+@item RS_EXPR_BIN
+Binary function.
+@cindex binary function
+@cindex function, binary
+
+@item RS_EXPR_VAR
+Symbolic variable.
+@cindex symbolic variable
+@cindex variable, symbolic
+@end vtable
+
+
+@node Lexer Tuning, Existing Scanners, Token Codes, Lexical Analyzer
+@subsection Lexer Tuning
+
+You can change the default behavior of the lexer to suite your needs.
+
+@deftypefun int rs_expr_control (void *@var{expr}, int @var{command}, ...)
+Perform an arithmetic expression control request command.
+
+The number and data type of additional arguments and the meaning of the
+return value depends on the control request command @var{command}.
+
+First argument @var{expr} is an arithmetic expression object.  The
+following symbolic constants are defined for @var{command}:
+
+@vtable @code
+@item RS_EXPR_PUNCT_CHAR
+Set the character for the punctuation token @var{tok} to character
+@w{code @var{c}}.
+
+Third argument @var{tok} (data type @code{int}) should be one out of the
+symbolic constants for punctuation tokens.  @xref{Token Codes}.
+
+Fourth argument @var{c} (data type @code{int}) should be a printing
+character that is not an alphabetic character (a letter), a decimal
+digit, or a whitespace character.
+
+Return value is 0 on success.  In case of an error, a value of -1 is
+returned and @code{errno} is set to describe the error.
+
+You can disable individual operators by setting the character
+@w{code @var{c}} for that operator to 0.
+@cindex disabling operators
+@cindex operators, disabling
+
+@item RS_EXPR_SCAN_NUM
+Use @var{func} for scanning numeric word tokens.
+
+Third argument @var{func} is a pointer to a function that the lexer
+calls whenever it attempts to scan a numeric word token.  You should
+define this function like:
+
+@deftypefun {char *} @var{scan_num} (char const *@var{start}, int *@var{tok}, @w{double *@var{val}})
+First argument @var{start} is the current position in the input buffer;
+that is, the beginning of the numeric word token.
+
+Return value is the buffer position at the end of the numeric word
+token; that is, the address of the first character not part of the
+numeric word token.
+
+If the function succeeds, it should store the token code just scanned
+at the address where the second argument @var{tok} points to.  The
+only valid token code is @code{RS_EXPR_NUM}.  The numeric value itself
+has to be stored at the address where the third argument @var{val}
+points to.
+
+If @var{start} does not point to a valid numeric word token, the return
+value should be @var{start}.  In case of a fatal error, the return value
+should be a null pointer.
+@end deftypefun
+
+The @code{RS_EXPR_SCAN_NUM} control request returns 0 on success.  In
+case of an error, a value of -1 is returned and @code{errno} is set to
+describe the error.
+
+@xref{Existing Scanners}, for predefined scanners.  You can disable
+scanning of numbers if you specify a null pointer as the third
+argument to the @code{RS_EXPR_SCAN_NUM} control request.
+@cindex disabling numbers
+@cindex numbers, disabling
+
+@item RS_EXPR_SCAN_SYM
+Use @var{func} for scanning symbolic word tokens.
+
+Third argument @var{func} is a pointer to a function that the lexer
+calls whenever it attempts to scan a symbolic word token.  You should
+define this function like:
+
+@deftypefun {char *} @var{scan_sym} (char const *@var{start}, int *@var{tok}, @w{void **@var{ref}})
+First argument @var{start} is the current position in the input buffer;
+that is, the beginning of the symbolic word token.
+
+Return value is the buffer position at the end of the symbolic word
+token; that is, the address of the first character not part of the
+symbolic word token.
+
+If the function @var{scan_sym} succeeds, it should store the token code
+just scanned at the address where the second argument @var{tok} points
+to and the address of an external symbol at the address where the third
+argument @var{ref} points to.  The definition of the external symbol
+depends on the token code.  Valid token codes, their meaning, and the
+corresponding definition of the external symbol are listed in the
+following table:
+
+@table @code
+@item RS_EXPR_SYM
+Symbolic constant defined as
+@code{double @var{var}}.
+
+@item RS_EXPR_SY1
+Symbolic constant defined as
+@code{double @var{func} (void)}.
+
+@item RS_EXPR_FUN
+Unary function defined as
+@code{double @var{func} (double @var{x})}.
+
+@item RS_EXPR_BIN
+Binary function defined as
+@code{double @var{func} (double @var{x}, double @var{y})}.
+
+@item RS_EXPR_VAR
+Symbolic variable defined as
+@code{void *@var{var}}.
+
+You have to install additional call-back functions if you return this
+token code.  See the @code{RS_EXPR_COMPAR_VAR},
+@code{RS_EXPR_EVAL_VAR}, and @code{RS_EXPR_FREE_VAR} control request
+described below, for how to do that.
+@end table
+
+If @var{start} does not point to a valid symbolic word token, the return
+value should be @var{start}.  In case of a fatal error, the return value
+should be null pointer.
+@end deftypefun
+
+The @code{RS_EXPR_SCAN_SYM} control request returns 0 on success.  In
+case of an error, a value of -1 is returned and @code{errno} is set to
+describe the error.
+
+@xref{Existing Scanners}, for predefined scanners.  You can disable
+scanning of symbols if you specify a null pointer as the third
+argument to the @code{RS_EXPR_SCAN_SYM} function.
+@cindex disabling symbols
+@cindex symbols, disabling
+
+@item RS_EXPR_COMPAR_VAR
+Third argument @var{func} is a pointer to a function that is called to
+compare two symbolic variables.  It is a fatal error if an arithmetic
+expression contains symbolic variables and this call-back function is
+not set when an arithmetic expression is scanned.  You should define
+this function like:
+
+@deftypefun int @var{compar_var} (void const *@var{a}, void const *@var{b})
+Arguments @var{a} and @var{b} are symbolic variable references returned
+to the lexer by the scanner for symbolic word tokens.
+
+Return value should be 0 if the two symbolic variables are equal.  If
+@var{a} is considered less than @var{b}, the return value should be less
+than 0, and if @var{a} is considered greater than @var{b}, the return
+value should be greater than 0.
+@end deftypefun
+
+The @code{RS_EXPR_COMPAR_VAR} control request returns 0 on success.  In
+case of an error, a value of -1 is returned and @code{errno} is set to
+describe the error.
+
+@item RS_EXPR_EVAL_VAR
+Third argument @var{func} is a pointer to a function that is called to
+evaluate a symbolic variable.  It is a fatal error if an arithmetic
+expression contains symbolic variables and this call-back function is
+not set when the arithmetic expression is evaluated.  You should define
+this function like:
+
+@deftypefun double @var{eval_var} (void *@var{var})
+Argument @var{var} is the symbolic variable reference returned to the
+lexer by the scanner for symbolic word tokens.
+
+Return value should be the value of the symbolic variable @var{var}.
+@end deftypefun
+
+The @code{RS_EXPR_EVAL_VAR} control request returns 0 on success.  In
+case of an error, a value of -1 is returned and @code{errno} is set to
+describe the error.
+
+@item RS_EXPR_FREE_VAR
+Third argument @var{func} is a pointer to a function that is called to
+delete a symbolic variable.  It is no error if @var{func} is a null
+pointer.  You should define this function like:
+
+@deftypefun void @var{free_var} (void *@var{var})
+Argument @var{var} is the symbolic variable reference returned to the
+lexer by the scanner for symbolic word tokens.
+@end deftypefun
+
+The @code{RS_EXPR_FREE_VAR} control request returns 0 on success.  In
+case of an error, a value of -1 is returned and @code{errno} is set to
+describe the error.
+@end vtable
+@end deftypefun
+
+
+@node Existing Scanners,  , Lexer Tuning, Lexical Analyzer
+@subsection Existing Scanners
+
+This section documents the predefined scanners for numeric and symbolic
+word tokens.  @xref{Lexer Tuning}, for how to replace a scanner.
+
+@deftypefun {char *} rs_expr_scan_num (char const *@var{start}, int *@var{tok}, double *@var{val})
+The default scanner for numeric constants.
+
+This scanner uses the @code{strtod} function to convert the initial part
+of @var{start} into a number.
+
+Return value is the string position at the end of the number; that is,
+the address of the first character not part of the number.  If no number
+is scanned, the return value is @var{start}.  In case of an error, a
+null pointer is returned.
+@end deftypefun
+
+@deftypefun {char *} rs_expr_scan_sym (char const *@var{start}, int *@var{tok}, void **@var{ref})
+The default scanner for symbolic word tokens.
+
+This scanner recognizes the following symbols:
+
+@table @code
+@item e
+Base of the natural logarithm.
+
+@item pi
+Ratio of a circle's circumference to its diameter.
+
+@item inf
+Positive infinity.
+
+@item nan
+Not-a-number.
+
+@item abs (@var{x})
+Absolute value.
+
+@item ceil (@var{x})
+@itemx floor (@var{x})
+@itemx trunc (@var{x})
+Nearest integer functions.
+
+@item ceiling (@var{x})
+Alternative name for the @code{ceil} function.
+
+@item sin (@var{x})
+@itemx cos (@var{x})
+@itemx tan (@var{x})
+Sine, cosine, and tangent function.
+
+@item arcsin (@var{x})
+@itemx arccos (@var{x})
+@itemx arctan (@var{x})
+Arc sine, arc cosine, and arc tangent function.
+
+@item asin (@var{x})
+@itemx acos (@var{x})
+@itemx atan (@var{x})
+Alternative names for the arc sine, arc cosine, and arc tangent
+function.
+
+@item exp (@var{x})
+Base e exponentiation.
+
+@item log (@var{x})
+@itemx ln (@var{x})
+Natural logarithm.
+
+@item pow (@var{x}, @var{y})
+General exponentiation.
+
+@item sqrt (@var{x})
+@itemx cbrt (@var{x})
+Square root and cube root function.
+
+@item sinh (@var{x})
+@itemx cosh (@var{x})
+@itemx tanh (@var{x})
+Hyperbolic sine, hyperbolic cosine, and hyperbolic tangent function.
+
+@item arsinh (@var{x})
+@itemx arcosh (@var{x})
+@itemx artanh (@var{x})
+Inverse hyperbolic sine, inverse hyperbolic cosine, and inverse
+hyperbolic tangent function.
+
+@item asinh (@var{x})
+@itemx acosh (@var{x})
+@itemx atanh (@var{x})
+Alternative names for the inverse hyperbolic sine, inverse hyperbolic
+cosine, and inverse hyperbolic tangent function.
+
+@item erf (@var{x})
+@itemx erfc (@var{x})
+Error function and complementary error function.
+
+@item gamma (@var{x})
+Gamma function.
+
+@item angle (@var{x}, @var{y})
+Signed angle of a point in the plane.
+
+@item hypot (@var{x}, @var{y})
+Distance of a point in the plane from the origin.
+@end table
+
+Return value is the string position at the end of the symbol; that is,
+the address of the first character not part of the symbol.  If no symbol
+is scanned @var{start} is returned.  In case of an error, a null pointer
+is returned.
+@end deftypefun
+
+
+@node Symbolic Variables,  , Lexical Analyzer, Arithmetic Expressions
+@section Symbolic Variables
+
+The default lexer (@pxref{Lexer Tuning}, and @pxref{Existing Scanners},
+for more details) does not handle symbolic variables.  If you install a
+user-defined scanner for symbolic variables, the following functions may
+help you to manage symbolic variables.
+
+@deftypefun void rs_expr_walk_var (void *@var{expr}, void *@var{func}, void *@var{arg})
+Call function @var{func} for each symbolic variable defined in the scope
+of the arithmetic expression object @var{expr}.
+
+If the second argument @var{arg} is a null pointer, you should define
+this function like:
+
+@deftypefun void @var{walk_var} (void *@var{var})
+Argument @var{var} is the symbolic variable reference returned to the
+lexer by the scanner for symbolic word tokens.
+@end deftypefun
+
+Otherwise, if the second argument @var{arg} is not a null pointer, you
+should define this function like:
+
+@deftypefun void @var{walk_var_2} (void *@var{var}, void *@var{arg})
+First argument @var{var} is the symbolic variable reference returned to
+the lexer by the scanner for symbolic word tokens.
+
+Second argument @var{arg} is the third argument of the
+@code{rs_expr_walk_var} function.
+@end deftypefun
+@end deftypefun
+
+
+@node Concept Index, Symbol Index, Arithmetic Expressions, Top
+@unnumbered Concept Index
+
+@printindex cp
+
+
+@node Symbol Index,  , Concept Index, Top
+@unnumbered Symbol Index
+
+@printindex fn
+
+@bye
+
+
+@c LocalWords: texinfo pt filll dir
+
+@c local variables:
+@c mode: outline-minor
+@c outline-regexp: "@\\(chapt\\|unnum\\|appen\\|section\\|subsection\\)"
+@c time-stamp-format: "%:y-%02m-%02d"
+@c time-stamp-start: "^@set VERSION[    ]+"
+@c time-stamp-end: "$"
+@c end:
