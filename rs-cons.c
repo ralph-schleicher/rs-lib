@@ -49,6 +49,7 @@
 #include <errno.h>
 
 #include "rs-cons.h"
+
 #ifdef __GNUC__
 #define static_inline static inline
 #else /* not __GNUC__ */
