@@ -44,15 +44,40 @@
 
 RS_ALLOC_BEGIN_DECL
 
+/* Function to be called if memory allocation fails.  */
 extern void (*rs_out_of_memory_hook) (void);
 
+/* Validate a pointer.  */
 extern void *rs_confirm (void *__p);
+
+/* Return the address of a memory block SIZE bytes long.  */
 extern void *rs_malloc (size_t __size);
+
+/* Change the size of the memory block whose address is P to be SIZE.
+   If the argument P is a null pointer, a memory block SIZE bytes long
+   will be allocated.
+
+   Return value is the address of the memory block.  */
 extern void *rs_realloc (void *__p, size_t __size);
+
+/* Return the address of a memory block big enough to store a vector of
+   ELEM elements, each of size SIZE.  */
 extern void *rs_calloc (size_t __elem, size_t __size);
+
+/* Return the memory block designated by P back to the system.
+   It is no error if the argument P is a null pointer.
+
+   The return value is always a null pointer.  */
 extern void *rs_free (void *__p);
+
+/* Duplicate a memory region.  */
 extern void *rs_memdup (void const *__p, size_t __size);
+
+/* Duplicate the string S.  */
 extern char *rs_strdup (char const *__s);
+
+/* Duplicate the string S but copy not more than N characters.
+   The result is always null-terminated.  */
 extern char *rs_strndup (char const *__s, size_t __n);
 
 RS_ALLOC_END_DECL

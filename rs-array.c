@@ -68,23 +68,7 @@ typedef unsigned long int uintptr_t;
 #define make_shared(p) ((void *) (((uintptr_t) (p)) | marker))
 #define clear_shared(p) ((void *) (((uintptr_t) (p)) & ~marker))
 
-/* Make a multi-dimensional array.
-
-   First argument RANK is the array rank, that is the number of array
-    dimensions.  Value has to be greater than or equal to 2.
-   Second argument DIM are the array dimensions (a vector of positive
-    numbers).  Dimensions are in increasing order, that is the first
-    vector element of DIM defines the number of array elements in the
-    first dimension.
-   Third argument SIZE is the size of a single array element.  Value
-    has to be a positive number.
-   Fourth argument ELEM is a pointer to the array elements.  If ELEM
-    is non-null, make a shared array.  Otherwise, allocate a memory
-    region for the array elements.
-
-   Return value is the multi-dimensional array.  If an error occurs,
-   the return value is a null pointer and 'errno' is set to describe
-   the error.  */
+/* Make a multi-dimensional array.  */
 static void *
 make_array (int rank, int const *dim, size_t size, void const *elem)
 {
@@ -196,12 +180,7 @@ rs_make_array (int rank, int const *dim, size_t size, void const *elem)
   return make_array (rank, dim, size, elem);
 }
 
-/* Free a multi-dimensional array.
-
-   Argument A is a multi-dimensional array.
-
-   If A is a shared array, the memory region for the array elements is
-   not freed.  It is no error if A is a null pointer.  */
+/* Free a multi-dimensional array.  */
 void
 rs_free_array (void *a)
 {
@@ -219,13 +198,7 @@ rs_free_array (void *a)
   free (ip);
 }
 
-/* Return a pointer to the elements of a multi-dimensional array.
-
-   Argument A is a multi-dimensional array.
-
-   Return value is the address of the first array element of A.  If an
-   error occurs, the return value is a null pointer and 'errno' is set
-   to describe the error.  */
+/* Return a pointer to the elements of a multi-dimensional array.  */
 void *
 rs_array_elements (void const *a)
 {
