@@ -42,6 +42,12 @@
 
 #include "rs-alloc.h"
 
+#if defined (__GLIBC__) && __GLIBC__ >= 2
+#ifndef HAVE_STRNDUP
+#define HAVE_STRNDUP 1
+#endif
+#endif /* __GLIBC__ */
+
 /* Procedure to call if memory allocation fails.  */
 void (*rs_out_of_memory_hook) (void) = NULL;
 
