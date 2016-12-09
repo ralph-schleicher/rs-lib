@@ -55,7 +55,7 @@
 #ifdef _WIN64
 typedef unsigned __int64 uintptr_t;
 #else /* not _WIN64 */
-typedef unsigned long int uintptr_t;
+typedef _W64 unsigned int uintptr_t;
 #endif /* not _WIN64 */
 #endif /* _UINTPTR_T_DEFINED */
 #endif /* _MSC_VER < 1600 */
