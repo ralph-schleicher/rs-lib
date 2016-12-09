@@ -131,7 +131,7 @@ extern void *rs_list_reverse (void *__list);
 extern void *rs_list_sort (void *__list, int (*__compar) (void const *, void const *));
 
 /* Associated lists.  */
-extern void *rs_list_acons (void const *__key, void const *__value, void const *__list);
+extern void *rs_list_acons (void const *__key, void const *__val, void const *__list);
 extern void *rs_list_assoc (void const *__key, void const *__list, int (*__f) (void const *, void const *));
 extern void *rs_list_assoc_if (int (*__p) (void const *), void *__list);
 extern void *rs_list_assoc_if_not (int (*__p) (void const *), void *__list);
