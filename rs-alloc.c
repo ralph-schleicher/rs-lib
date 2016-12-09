@@ -47,6 +47,9 @@
 #define HAVE_STRNDUP 1
 #endif
 #endif /* __GLIBC__ */
+#ifdef _MSC_VER
+#define strdup _strdup
+#endif
 
 /* Function to be called if memory allocation fails.  */
 void (*rs_out_of_memory_hook) (void) = NULL;
