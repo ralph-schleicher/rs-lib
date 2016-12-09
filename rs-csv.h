@@ -181,7 +181,7 @@ extern int rs_csv_valuep (rs_csv_t *__obj);
 extern char *rs_csv_value (rs_csv_t *__obj);
 
 /* Return the length of the most recently parsed field.  */
-extern int rs_csv_length (rs_csv_t *__obj);
+extern size_t rs_csv_length (rs_csv_t *__obj);
 
 RS_CSV_END_DECL
 

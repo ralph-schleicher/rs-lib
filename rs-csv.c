@@ -757,7 +757,7 @@ rs_csv_value (rs_csv_t *obj)
 }
 
 /* Return the length of the most recently parsed field.  */
-int
+size_t
 rs_csv_length (rs_csv_t *obj)
 {
   return obj->val_len;
