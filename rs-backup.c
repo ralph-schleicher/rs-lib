@@ -48,6 +48,9 @@
 #ifndef HAVE_UNISTD_H
 #define HAVE_UNISTD_H 1
 #endif
+#ifndef HAVE_RENAME
+#define HAVE_RENAME 1
+#endif
 #endif /* not __LCC__ */
 #endif /* not _MSC_VER */
 
@@ -59,7 +62,11 @@
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif /* HAVE_UNISTD_H */
+#ifdef _MSC_VER
+#include "dirent-w32.h"
+#else /* not _MSC_VER  */
 #include <dirent.h>
+#endif /* not _MSC_VER  */
 
 #include "rs-backup.h"
 
@@ -72,6 +79,10 @@
 #else /* not _WIN32 */
 #define xstrncmp strncmp
 #endif /* not _WIN32 */
+#ifdef _MSC_VER
+#define unlink _unlink
+#define strnicmp _strnicmp
+#endif
 
 /* Forward declarations.  */
 static char *backup_file_name (char const *__file_name, int __method);
