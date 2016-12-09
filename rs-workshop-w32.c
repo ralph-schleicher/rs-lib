@@ -48,6 +48,8 @@
 #endif
 #include <windows.h>
 
+#include "rs-workshop.h"
+
 /* Forward declarations.  */
 typedef struct rs_task rs_task_t;
 
