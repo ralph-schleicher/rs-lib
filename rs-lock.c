@@ -63,6 +63,17 @@
 #define pid_t int
 #endif
 #else /* not __LCC__ */
+#ifdef __MINGW32__
+#ifndef HAVE_UNISTD_H
+#define HAVE_UNISTD_H 1
+#endif
+#ifndef HAVE_FCNTL_H
+#define HAVE_FCNTL_H 1
+#endif
+#ifndef HAVE_PROCESS_H
+#define HAVE_PROCESS_H 1
+#endif
+#else /* not __MINGW32__ */
 #ifndef HAVE_UNISTD_H
 #define HAVE_UNISTD_H 1
 #endif
@@ -78,6 +89,7 @@
 #ifndef HAVE_KILL
 #define HAVE_KILL 1
 #endif
+#endif /* not __MINGW32__ */
 #endif /* not __LCC__ */
 #endif /* not _MSC_VER */
 
