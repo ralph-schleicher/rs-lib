@@ -2,35 +2,38 @@
 
 @c %**start of header
 @setfilename rs-expr.info
-@settitle rs-expr
+@settitle Arithmetic Expressions
 
 @set PACKAGE rs-expr
 @set VERSION 2011-02-26
+
+@ifinfo
+@paragraphindent 0
+@end ifinfo
+
+@iftex
+@finalout
+@paragraphindent 1
+@end iftex
 
 @syncodeindex ky cp
 @syncodeindex pg cp
 @syncodeindex vr fn
 @syncodeindex tp fn
 
-@iftex
-@finalout
-@end iftex
-
 @afourpaper
 @setchapternewpage on
-@setcontentsaftertitlepage
 @c %**end of header
 
 @copying
-This is the @code{rs-expr} @value{VERSION} reference manual.
+This is the reference manual for the @code{rs-expr} library version
+@value{VERSION}.
 
-@quotation
-Copyright @copyright{} 1993--2011 Ralph Schleicher
+Copyright @copyright{} 1993 Ralph Schleicher
 
-Verbatim copying and distribution of this entire article are permitted
-worldwide, without royalty, in any medium, provided this notice, and
-the copyright notice, are preserved.
-@end quotation
+Permission is granted to make and distribute verbatim copies of this
+manual, provided the copyright notice and this permission notice are
+preserved on all copies.
 @end copying
 
 @dircategory Libraries
@@ -49,10 +52,10 @@ the copyright notice, are preserved.
 @vskip 0pt plus 1filll
 @insertcopying
 @end titlepage
+@end ifnothtml
 
 @c Table of contents.
 @contents
-@end ifnothtml
 
 @ifnottex
 @node Top, Arithmetic Expressions, (dir), (dir)
