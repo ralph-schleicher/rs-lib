@@ -68,6 +68,7 @@ rs-lock.h rs-lock.c \
 rs-matrix.h rs-matrix-transpose.c \
 rs-sort.h rs-sort.c \
 rs-workshop.h rs-workshop.c \
+rs-try.h rs-try.c \
 $(nil)
 librs_BUILT_SOURCES = \
 rs-expr.gperf.c \
@@ -113,6 +114,7 @@ rs-lock.o: rs-lock.h rs-lock.c
 rs-matrix-transpose.o: rs-matrix.h rs-matrix-transpose.c
 rs-sort.o: rs-sort.h rs-sort.c
 rs-workshop.o: rs-workshop.h rs-workshop.c rs-workshop-pthread.c rs-workshop-w32.c
+rs-try.o: rs-try.h rs-try.c
 
 # local variables:
 # compile-command: "make -r "
