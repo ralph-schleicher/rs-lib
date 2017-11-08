@@ -178,7 +178,7 @@ Declare a catch tag.
 
 @itemize @bullet{}
 @item
-Argument @var{name} is the symbolic name of the catch tag.
+Argument @var{name} is the symbol name of the catch tag.
 @end itemize
 @end deffn
 
@@ -186,12 +186,35 @@ Argument @var{name} is the symbolic name of the catch tag.
 @anchor{rs_try_subtypep}
 @deftypefun {int} rs_try_subtypep (@w{rs_try_tag_t const *@var{tag1}}, @w{rs_try_tag_t const *@var{tag2}})
 Return true if @var{tag1} is a sub-type of @var{tag2}.
+
+@itemize @bullet{}
+@item
+Arguments @var{tag1} and @var{tag2} are catch tags.
+@end itemize
+@end deftypefun
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_super_tag}
+@deftypefun {rs_try_tag_t const *} rs_try_super_tag (@w{rs_try_tag_t const *@var{tag}})
+Return the super-type of a catch tag.
+
+@itemize @bullet{}
+@item
+Argument @var{tag} is a catch tag.  If @var{tag} is a null pointer, the
+return value is @symb{NULL}.
+@end itemize
 @end deftypefun
 
 @c ----------------------------------------------------------------------
 @anchor{rs_try_tag_name}
 @deftypefun {char const *} rs_try_tag_name (@w{rs_try_tag_t const *@var{tag}})
-Return the symbolic name of a tag as a string constant.
+Return the symbol name of a catch tag as a string constant.
+
+@itemize @bullet{}
+@item
+Argument @var{tag} is a catch tag.  If @var{tag} is a null pointer, the
+return value is @code{"NULL"}.
+@end itemize
 @end deftypefun
 
 
@@ -249,19 +272,19 @@ Return the tag argument of the @term{throw}.
 @c ----------------------------------------------------------------------
 @anchor{rs_try_file_name}
 @deftypefun {char const *} rs_try_file_name ()
-Return the source file name where the
+Return the source file name where the @term{throw} occurs.
 @end deftypefun
 
 @c ----------------------------------------------------------------------
 @anchor{rs_try_line_number}
 @deftypefun {int} rs_try_line_number ()
-Return the
+Return the source line number where the @term{throw} occurs.
 @end deftypefun
 
 @c ----------------------------------------------------------------------
 @anchor{rs_try_error_number}
 @deftypefun {int} rs_try_error_number ()
-Return the value of @code{errno} at the time of the @term{throw}.
+Return the value of @symb{errno} when the @term{throw} occurred.
 @end deftypefun
 
 @subheading Catching
@@ -269,7 +292,7 @@ Return the value of @code{errno} at the time of the @term{throw}.
 @c ----------------------------------------------------------------------
 @anchor{rs_try_catch_tag}
 @deftypefun {rs_try_tag_t const *} rs_try_catch_tag ()
-Return the tag of the @term{catch} block.
+Return the super-type matching the thrown tag.
 @end deftypefun
 
 
