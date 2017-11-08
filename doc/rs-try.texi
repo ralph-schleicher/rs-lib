@@ -1,0 +1,423 @@
+\input texinfo.tex
+
+@c %**start of header
+@setfilename rs-try.info
+@settitle Throw/Catch Control Flow Pattern
+
+@set PACKAGE rs-try
+@set VERSION 2017-10-29
+
+@ifinfo
+@paragraphindent 0
+@end ifinfo
+
+@iftex
+@finalout
+@paragraphindent 1
+@end iftex
+
+@afourpaper
+@setchapternewpage on
+@deftypefnnewline off
+
+@syncodeindex ky cp
+@syncodeindex pg cp
+@syncodeindex vr fn
+@syncodeindex tp fn
+
+@macro term{NAME}
+\NAME\
+@end macro
+
+@c Symbol name.
+@macro symb{NAME}
+@w{@code{\NAME\}}
+@end macro
+
+@c Symbol name reference.
+@macro syref{NAME}
+@ref{\NAME\, , @symb{\NAME\}}
+@end macro
+@c %**end of header
+
+@copying
+This is the reference manual for the @code{rs-try} library version
+@value{VERSION}.
+
+Copyright @copyright{} 2017 Ralph Schleicher
+
+Permission is granted to make and distribute verbatim copies of this
+manual, provided the copyright notice and this permission notice are
+preserved on all copies.
+@end copying
+
+@dircategory Libraries
+@direntry
+* RS-Try: (rs-try).             Throw/catch control flow pattern.
+@end direntry
+
+@ifnothtml
+@titlepage
+@title Throw/Catch Control Flow Pattern
+@subtitle @code{rs-try} version @value{VERSION}
+
+@author Ralph Schleicher
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+@end ifnothtml
+
+@c Table of contents.
+@contents
+
+@ifnottex
+@node Top, Introduction, (dir), (dir)
+@top Throw/Catch Control Flow Pattern
+
+@insertcopying
+@end ifnottex
+
+@menu
+* Introduction::
+* API Reference::
+* Examples::
+* Concept Index::
+* Symbol Index::
+@end menu
+
+
+@node Introduction, API Reference, Top, Top
+@chapter Introduction
+
+The @code{rs-try} library implements the throw/catch control flow
+pattern in C.  It's general form is depicted below.
+
+@smallexample
+@group
+try
+  @{
+    /* @r{...} */
+    throw (@var{tag});
+    /* @r{...} */
+  @}
+catch (@var{tag})
+  @{
+    /* @r{...} */
+  @}
+finally
+  @{
+    /* @r{...} */
+  @}
+@end group
+@end smallexample
+
+Each @term{try} block establishes a throw/catch control flow environment
+with zero or more @term{catch} blocks and an optional @term{finally}
+block.  If a @term{throw} occurs during the execution of the @term{try}
+block, control is transferred immediately to the most recently
+established throw/catch control flow environment.  If there is a
+@term{catch} block matching the @term{tag} argument of the @term{throw},
+it is executed.  Then the optional @term{finally} block is executed and
+the throw/catch control flow environment is disestablished.  If there is
+no matching @term{catch} block, control is transferred to the then most
+recently established throw/catch control flow environment.
+
+A @term{catch} block matches if the thrown tag is a sub-type of any of
+the tags specified by the @term{catch} block.
+
+
+@node API Reference, Examples, Introduction, Top
+@chapter API Reference
+
+All symbols described in this chapter are defined in the header file
+@file{rs-try.h}.
+
+@menu
+* Catch Tags::
+* Control Flow::
+* Meta Data::
+* Error Handling::
+* Customization::
+@end menu
+
+
+@node Catch Tags, Control Flow, API Reference, API Reference
+@section Catch Tags
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_tag_t}
+@deftp {Data Type} rs_try_tag_t
+The data type of a catch tag object.
+
+This is an opaque data type.  You only deal with pointers to catch tag
+objects.
+@end deftp
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_define_tag}
+@deffn {Macro} rs_try_define_tag (@var{name}, @w{rs_try_tag_t const *@var{super}})
+Define a catch tag.
+
+@itemize @bullet{}
+@item
+First argument @var{name} is the symbolic name of the catch tag.
+
+@item
+Second argument @var{super} is the super-type of the catch tag.  This
+can be used to build a hierarchical tree of catch tags.  If there is no
+super-type, use @symb{NULL}.
+@end itemize
+@end deffn
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_declare_tag}
+@deffn {Macro} rs_try_declare_tag (@var{name})
+Declare a catch tag.
+
+@itemize @bullet{}
+@item
+Argument @var{name} is the symbolic name of the catch tag.
+@end itemize
+@end deffn
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_subtypep}
+@deftypefun {int} rs_try_subtypep (@w{rs_try_tag_t const *@var{tag1}}, @w{rs_try_tag_t const *@var{tag2}})
+Return true if @var{tag1} is a sub-type of @var{tag2}.
+@end deftypefun
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_tag_name}
+@deftypefun {char const *} rs_try_tag_name (@w{rs_try_tag_t const *@var{tag}})
+Return the symbolic name of a tag as a string constant.
+@end deftypefun
+
+
+@node Control Flow, Meta Data, Catch Tags, API Reference
+@section Control Flow
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try}
+@deffn {Macro} rs_try
+Begin a throw/catch control flow environment.
+@end deffn
+
+@c ----------------------------------------------------------------------
+@anchor{rs_catch}
+@deffn {Macro} rs_catch (@var{tag}, ...)
+Define a @term{catch} block.
+
+Arguments are one or more catch tags.  The @term{catch} block matches if
+the @term{tag} argument of the @term{throw} is a sub-type of any of the
+specified catch tags.
+@end deffn
+
+@c ----------------------------------------------------------------------
+@anchor{rs_finally}
+@deffn {Macro} rs_finally
+Define a @term{finally} block.
+
+The @term{finally} block is always executed if the corresponding
+@term{try} and @term{catch} blocks return.
+@end deffn
+
+@c ----------------------------------------------------------------------
+@anchor{rs_throw}
+@deffn {Macro} rs_throw (@var{tag})
+Throw a catch tag.
+
+@itemize @bullet{}
+@item
+Argument @var{tag} is a catch tag.
+@end itemize
+@end deffn
+
+
+@node Meta Data, Error Handling, Control Flow, API Reference
+@section Meta Data
+
+@subheading Throwing
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_throw_tag}
+@deftypefun {rs_try_tag_t const *} rs_try_throw_tag ()
+Return the tag argument of the @term{throw}.
+@end deftypefun
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_file_name}
+@deftypefun {char const *} rs_try_file_name ()
+Return the source file name where the
+@end deftypefun
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_line_number}
+@deftypefun {int} rs_try_line_number ()
+Return the
+@end deftypefun
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_error_number}
+@deftypefun {int} rs_try_error_number ()
+Return the value of @code{errno} at the time of the @term{throw}.
+@end deftypefun
+
+@subheading Catching
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_catch_tag}
+@deftypefun {rs_try_tag_t const *} rs_try_catch_tag ()
+Return the tag of the @term{catch} block.
+@end deftypefun
+
+
+@node Error Handling, Customization, Meta Data, API Reference
+@section Error Handling
+
+@cindex control error
+A control error terminates the program by calling @symb{abort}.
+
+@c ----------------------------------------------------------------------
+@anchor{rs_try_control_error_hook}
+@deftypevar {void (*) (void)} rs_try_control_error_hook
+Function to be called if a control error occurs.
+
+In case of an error, @symb{errno} is set to describe the error.  The
+following error conditions are defined for this function.
+
+@table @code
+@item EFAULT
+A @term{throw} occurs but there is no corresponding @term{catch} block.
+
+@item ENOMEM
+There it not enough memory available to establish a new throw/catch
+control flow environment.
+
+@item EINVAL
+The most recently established throw/catch control flow environment got
+lost.  This can not happen in a correct program.
+@end table
+@end deftypevar
+
+
+@node Customization,  , Error Handling, API Reference
+@section Customization
+
+These macros have to be defined before the header file @file{rs-try.h}
+is included.
+
+@c ----------------------------------------------------------------------
+@anchor{RS_TRY_USE_SIGJMP}
+@deftypevr {Macro} {int} RS_TRY_USE_SIGJMP
+If true, use @symb{sigsetjmp} and friends instead of @symb{setjmp}.
+Disabled by default.
+@end deftypevr
+
+@c ----------------------------------------------------------------------
+@anchor{RS_TRY_USE_THREADS}
+@deftypevr {Macro} {int} RS_TRY_USE_THREADS
+If true, allocate throw/catch control flow environments in thread-local
+storage.  Enabled by default.
+@end deftypevr
+
+@c ----------------------------------------------------------------------
+@anchor{RS_TRY_USE_KEYWORDS}
+@deftypevr {Macro} {int} RS_TRY_USE_KEYWORDS
+If true, define keywords @symb{try}, @symb{catch}, @symb{finally},
+and @symb{throw} as aliases for @symb{rs_try}, @symb{rs_catch},
+@symb{rs_finally}, and @symb{rs_throw} respectively.
+Disabled by default.
+@end deftypevr
+
+@c ----------------------------------------------------------------------
+@anchor{RS_TRY_STACK_SIZE}
+@deftypevr {Macro} {int} RS_TRY_STACK_SIZE
+If the value is a positive number, allocate that many throw/catch
+control flow environments on the stack, i.e. the number of nested
+@term{try} blocks is fixed.  Otherwise, allocate throw/catch control
+flow environments dynamically on the heap.  The later is the default.
+@end deftypevr
+
+
+@node Examples, Concept Index, API Reference, Top
+@chapter Examples
+
+@menu
+* Catch All Handler::
+@end menu
+
+
+@node Catch All Handler,  , Examples, Examples
+@section Catch All Handler
+
+@smallexample
+@group
+#define RS_TRY_USE_KEYWORDS 1
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "rs-try.h"
+
+static void
+dummy (int warn)
+@{
+  try
+    @{
+      if (warn != 0)
+        throw (RS_TRY_WARNING);
+    @}
+  catch (RS_TRY_ERROR)
+    @{
+      /* @r{Ignored.}  */
+    @}
+@}
+
+int
+main (void)
+@{
+  try
+    @{
+      dummy (1);
+    @}
+  catch (NULL)
+    @{
+      rs_try_tag_t const *tag = rs_try_throw_tag ();
+
+      fprintf (stderr, "%s:%d: unhandled tag ‘%s’\n",
+               rs_try_file_name (), rs_try_line_number (),
+               rs_try_tag_name (tag));
+
+      abort ();
+    @}
+
+  return 0;
+@}
+@end group
+@end smallexample
+
+
+@node Concept Index, Symbol Index, Examples, Top
+@unnumbered Concept Index
+
+@printindex cp
+
+
+@node Symbol Index,  , Concept Index, Top
+@unnumbered Symbol Index
+
+@printindex fn
+
+@bye
+
+
+@c LocalWords: texinfo pt filll dir
+
+@c local variables:
+@c mode: outline-minor
+@c outline-regexp: "@\\(chapt\\|unnum\\|appen\\|section\\|subsection\\)"
+@c time-stamp-format: "%:y-%02m-%02d"
+@c time-stamp-start: "^@set VERSION[    ]+"
+@c time-stamp-end: "$"
+@c end:
