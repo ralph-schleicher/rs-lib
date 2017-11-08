@@ -103,3 +103,10 @@ Utility functions for searching and sorting.
 A simple but portable thread pool.
 
 There is an implementation for POSIX threads and for the Windows API.
+
+
+### rs-try
+
+Throw/catch control flow pattern.
+
+There is a `try`, `catch`, and `finally` block and a `throw` function.
