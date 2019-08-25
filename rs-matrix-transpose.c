@@ -67,29 +67,20 @@
 static size_t
 gcd (size_t a, size_t b)
 {
-  size_t u[3], v[3], q, t[3];
+  size_t u, v, t;
 
-  u[0] = 1;
-  u[1] = 0;
-  u[2] = a;
+  u = a;
+  v = b;
 
-  v[0] = 0;
-  v[1] = 1;
-  v[2] = b;
-
-  while (v[2] != 0)
+  while (v != 0)
     {
-      q = u[2] / v[2];
+      t = u % v;
 
-      t[0] = u[0] - v[0] * q;
-      t[1] = u[1] - v[1] * q;
-      t[2] = u[2] - v[2] * q;
-
-      memcpy (u, v, sizeof (v));
-      memcpy (v, t, sizeof (t));
+      u = v;
+      v = t;
     }
 
-  return u[2];
+  return u;
 }
 
 /* In-place matrix transposition.  */
