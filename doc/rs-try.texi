@@ -127,6 +127,9 @@ recently established throw/catch control flow environment.
 A @term{catch} block matches if the thrown tag is a sub-type of any of
 the tags specified by the @term{catch} block.
 
+The code of a @term{try}, @term{catch}, and @term{finally} block must
+not be compound statement, it can also be an expression statement.
+
 
 @node API Reference, Examples, Introduction, Top
 @chapter API Reference
@@ -369,11 +372,15 @@ flow environments dynamically on the heap.  The later is the default.
 
 @menu
 * Catch All Handler::
+* Cleanup with Finally::
 @end menu
 
 
-@node Catch All Handler,  , Examples, Examples
+@node Catch All Handler, Cleanup with Finally, Examples, Examples
 @section Catch All Handler
+
+Since @code{NULL} is the super-type of all tags, it can be used to
+establish a catch all handler.
 
 @smallexample
 @group
@@ -383,17 +390,23 @@ flow environments dynamically on the heap.  The later is the default.
 #include <stdio.h>
 #include "rs-try.h"
 
+rs_try_define_tag (BALL, NULL);
+rs_try_define_tag (MUD, NULL);
+
 static void
-dummy (int warn)
+sub (rs_try_declare_tag (thing))
 @{
   try
     @{
-      if (warn != 0)
-        throw (RS_TRY_WARNING);
+      fprintf (stderr, "Throwing ‘%s’\n",
+               rs_try_tag_name (thing));
+
+      throw (thing);
     @}
-  catch (RS_TRY_ERROR)
+  catch (BALL)
     @{
-      /* @r{Ignored.}  */
+      fprintf (stderr, "Caught ‘%s’\n",
+               rs_try_tag_name (rs_try_throw_tag ()));
     @}
 @}
 
@@ -402,15 +415,85 @@ main (void)
 @{
   try
     @{
-      dummy (1);
+      sub (BALL);
+      sub (MUD);
     @}
   catch (NULL)
     @{
-      rs_try_tag_t const *tag = rs_try_throw_tag ();
+      fprintf (stderr, "Unhandled tag ‘%s’ thrown at ‘%s’ line %d\n",
+               rs_try_tag_name (rs_try_throw_tag ()),
+               rs_try_file_name (),
+               rs_try_line_number ());
+    @}
 
-      fprintf (stderr, "%s:%d: unhandled tag ‘%s’\n",
-               rs_try_file_name (), rs_try_line_number (),
-               rs_try_tag_name (tag));
+  return 0;
+@}
+@end group
+@end smallexample
+
+@noindent
+The output of this example is as follows:
+
+@smallexample
+@group
+Throwing ‘BALL’
+Caught ‘BALL’
+Throwing ‘MUD’
+Unhandled tag ‘MUD’ thrown at ‘example.c’ line 18
+@end group
+@end smallexample
+
+@page
+
+
+@node Cleanup with Finally,  , Catch All Handler, Examples
+@section Cleanup with Finally
+
+Whether or not a @term{throw} occurs, a @term{finally} block is always
+executed.
+
+@smallexample
+@group
+#define RS_TRY_USE_KEYWORDS 1
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "rs-try.h"
+
+int
+main (void)
+@{
+  try
+    @{
+      try
+        @{
+          fprintf (stderr, "Setup\n");
+          fprintf (stderr, "Working\n");
+        @}
+      finally
+        fprintf (stderr, "Cleanup\n");
+
+      try
+        @{
+          fprintf (stderr, "Before throwing\n");
+          throw (RS_TRY_ERROR);
+          fprintf (stderr, "Not reached\n");
+        @}
+      finally
+        fprintf (stderr, "After throwing\n");
+    @}
+  catch (RS_TRY_CONDITION)
+    @{
+      fprintf (stderr, "‘%s’ caught by ‘%s’\n",
+               rs_try_tag_name (rs_try_throw_tag ()),
+               rs_try_tag_name (rs_try_catch_tag ()));
+    @}
+  catch (NULL)
+    @{
+      fprintf (stderr, "Unhandled tag ‘%s’ thrown at ‘%s’ line %d\n",
+               rs_try_tag_name (rs_try_throw_tag ()),
+               rs_try_file_name (),
+               rs_try_line_number ());
 
       abort ();
     @}
@@ -419,6 +502,22 @@ main (void)
 @}
 @end group
 @end smallexample
+
+@noindent
+The output of this example is as follows:
+
+@smallexample
+@group
+Setup
+Working
+Cleanup
+Before throwing
+After throwing
+‘RS_TRY_ERROR’ caught by ‘RS_TRY_CONDITION’
+@end group
+@end smallexample
+
+@page
 
 
 @node Concept Index, Symbol Index, Examples, Top
