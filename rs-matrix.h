@@ -58,7 +58,11 @@ RS_MATRIX_BEGIN_DECL
 
    Return value is A on success, that means the elements of the
    matrix are transposed.  In case of an error, a null pointer is
-   returned and ‘errno’ is set to describe the error.  */
+   returned and ‘errno’ is set to describe the error.  The following
+   error conditions are defined for this function.
+
+   EINVAL
+        The total array size is too large.  */
 extern void *rs_matrix_transpose (void *__a, size_t __m, size_t __n, size_t __s);
 
 RS_MATRIX_END_DECL
