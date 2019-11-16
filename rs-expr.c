@@ -83,6 +83,13 @@
 #endif /* not __attribute__ */
 #endif /* not __GNUC__ or __GNUC__ < 2 */
 
+/* Switch statement fall though marker.  */
+#if defined (__GNUC__) && (__GNUC__ >= 7)
+#define fall_through __attribute__ ((fallthrough))
+#else /* not __GNUC__ */
+#define fall_through /* FALLTHROUGH */ (void) 0
+#endif /* not __GNUC__ */
+
 /* Mathematical constants.  */
 #ifndef M_E
 #define M_E 2.7182818284590452354
@@ -1061,12 +1068,16 @@ set_punct_char (struct expr *expr, va_list argp)
       if (c == 0)
 	break;
 
+      fall_through;
+
     case RS_EXPR_BEG:
     case RS_EXPR_END:
     case RS_EXPR_SEP:
 
       if (ispunct (c))
 	break;
+
+      fall_through;
 
     default:
 

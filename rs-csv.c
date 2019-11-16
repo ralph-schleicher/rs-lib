@@ -53,6 +53,13 @@
 #endif /* not _MSC_VER */
 #endif /* not __GNUC__ */
 
+/* Switch statement fall though marker.  */
+#if defined (__GNUC__) && (__GNUC__ >= 7)
+#define fall_through __attribute__ ((fallthrough))
+#else /* not __GNUC__ */
+#define fall_through /* FALLTHROUGH */ (void) 0
+#endif /* not __GNUC__ */
+
 /* Set ‘errno’ and return VALUE back to the caller.  */
 #define set_errno_and_return_value(e,value)				\
 do									\
@@ -447,11 +454,12 @@ parse_end_of_line (rs_csv_t *obj, FILE *stream, int c)
     {
     case '\r':
 
-      /* Mac or DOS style end of line character.
-	 Fall through!  */
+      /* Mac or DOS style end of line character.  */
       c = get_char (obj, stream);
       if (c != '\n')
 	ungetc (c, stream);
+
+      fall_through;
 
     case '\n':
 

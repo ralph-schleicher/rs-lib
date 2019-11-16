@@ -154,6 +154,13 @@ extern void *alloca (size_t __n);
 #define O_BINARY 0
 #endif
 
+/* Switch statement fall though marker.  */
+#if defined (__GNUC__) && (__GNUC__ >= 7)
+#define fall_through __attribute__ ((fallthrough))
+#else /* not __GNUC__ */
+#define fall_through /* FALLTHROUGH */ (void) 0
+#endif /* not __GNUC__ */
+
 /* Buffer size in bytes (including the terminating null character) to
    store the lock file name associated with FILE_NAME.  */
 #define LOCK_FILE_NAME_SIZE(file_name) ((strlen (file_name) + 2 + 1) * sizeof (char))
@@ -366,13 +373,18 @@ rs_lock_file (char const *file_name, int force)
       switch (lock_owner (lock_file_name))
 	{
 	case 2:
+
 	  return 0;
 
 	case 1:
+
 	  if (force == 0)
 	    return 1;
 
+	  fall_through;
+
 	case 0:
+
 	  /* Try to break the lock.  */
 	  if (unlink (lock_file_name) == 0)
 	    return do_symlink (buffer, lock_file_name);
