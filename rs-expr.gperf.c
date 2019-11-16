@@ -1,4 +1,4 @@
-/* C code produced by gperf version 3.0.4 */
+/* ANSI-C code produced by gperf version 3.1 */
 /* Command-line: gperf rs-expr.gperf  */
 /* Computed positions: -k'1-2,4' */
 
@@ -26,7 +26,7 @@
       && ('w' == 119) && ('x' == 120) && ('y' == 121) && ('z' == 122) \
       && ('{' == 123) && ('|' == 124) && ('}' == 125) && ('~' == 126))
 /* The character set is not based on ISO-646.  */
-error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gnu-gperf@gnu.org>."
+#error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gperf@gnu.org>."
 #endif
 
 #line 1 "rs-expr.gperf"
@@ -405,9 +405,7 @@ inline
 #endif
 #endif
 static unsigned int
-rs_expr_sym1_hash (str, len)
-     register const char *str;
-     register unsigned int len;
+rs_expr_sym1_hash (register const char *str, register size_t len)
 {
   static const unsigned char asso_values[] =
     {
@@ -438,7 +436,7 @@ rs_expr_sym1_hash (str, len)
       86, 86, 86, 86, 86, 86, 86, 86, 86, 86,
       86, 86, 86, 86, 86, 86, 86
     };
-  register int hval = len;
+  register unsigned int hval = len;
 
   switch (hval)
     {
@@ -456,16 +454,8 @@ rs_expr_sym1_hash (str, len)
   return hval;
 }
 
-#ifdef __GNUC__
-__inline
-#if defined __GNUC_STDC_INLINE__ || defined __GNUC_GNU_INLINE__
-__attribute__ ((__gnu_inline__))
-#endif
-#endif
 const struct rs_expr_sym *
-rs_expr_sym1_lookup (str, len)
-     register const char *str;
-     register unsigned int len;
+rs_expr_sym1_lookup (register const char *str, register size_t len)
 {
   enum
     {
@@ -600,9 +590,9 @@ rs_expr_sym1_lookup (str, len)
 
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
     {
-      register int key = rs_expr_sym1_hash (str, len);
+      register unsigned int key = rs_expr_sym1_hash (str, len);
 
-      if (key <= MAX_HASH_VALUE && key >= 0)
+      if (key <= MAX_HASH_VALUE)
         {
           register const char *s = wordlist[key].e_name;
 
