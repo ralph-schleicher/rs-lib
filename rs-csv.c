@@ -146,11 +146,11 @@ rs_csv_new (void)
       obj->val_end = NULL;
       obj->delim = EOF;
       obj->delim_count = 1;
-      obj->delim_seq = strncpy (obj->delim_buf, ",", obj->delim_count);
+      obj->delim_seq = memcpy (obj->delim_buf, ",", obj->delim_count);
       obj->quote_count = 1;
-      obj->quote_seq = strncpy (obj->quote_buf, "\"", obj->quote_count);
+      obj->quote_seq = memcpy (obj->quote_buf, "\"", obj->quote_count);
       obj->comment_count = 0;
-      obj->comment_seq = strncpy (obj->comment_buf, "", obj->comment_count);
+      obj->comment_seq = memcpy (obj->comment_buf, "", obj->comment_count);
     }
 
   return obj;
@@ -205,7 +205,7 @@ rs_csv_set_delimiter (rs_csv_t *obj, char const *seq, size_t count)
     set_errno_and_return_value (EINVAL, -1);
 
   /* Copy the delimiter characters.  */
-  strncpy (obj->delim_seq, seq, count);
+  memcpy (obj->delim_seq, seq, count);
 
   /* Save number of characters.  */
   obj->delim_count = count;
