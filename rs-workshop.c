@@ -35,8 +35,18 @@
 #include <config.h>
 #endif
 
-#ifdef _WIN32
+#ifdef USE_W32
+#undef USE_W32
+#endif
+
+#ifdef _MSC_VER
+#define USE_W32 1
+#else /* not _MSC_VER */
+#define USE_W32 0
+#endif /* not _MSC_VER */
+
+#if USE_W32
 #include "rs-workshop-w32.c"
-#else /* not _WIN32 */
+#else /* not USE_W32 */
 #include "rs-workshop-pthread.c"
-#endif /* not _WIN32 */
+#endif /* not USE_W32 */
