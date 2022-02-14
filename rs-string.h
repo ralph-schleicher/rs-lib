@@ -51,10 +51,15 @@ RS_STRING_BEGIN_DECL
    The first null pointer argument terminates the argument list.
 
    If the first argument is not a null pointer, return value is
-   a string.  If the first argument is a null pointers, return
+   a string.  If the first argument is a null pointer, return
    value is a null pointer (no error).  If an error occurs, the
    return value is a null pointer and ‘errno’ is set to describe
-   the error.  */
+   the error.
+
+   The following error conditions are defined for this function:
+
+   ENOMEM
+        The system ran out of memory.  */
 extern char *rs_concat (char const *__first, ...);
 extern wchar_t *rs_wconcat (wchar_t const *__first, ...);
 
@@ -63,7 +68,12 @@ extern wchar_t *rs_wconcat (wchar_t const *__first, ...);
 
    Return value is a string.  If an error occurs, the return
    value is a null pointer and ‘errno’ is set to describe the
-   error.  */
+   error.
+
+   The following error conditions are defined for this function:
+
+   ENOMEM
+        The system ran out of memory.  */
 extern char *rs_concatx (char const *__first, ...);
 extern wchar_t *rs_wconcatx (wchar_t const *__first, ...);
 
@@ -83,7 +93,12 @@ extern wchar_t *rs_wconcatvx (wchar_t const *__first, va_list __argp);
    a string.  If all arguments are null pointers, return
    value is a null pointer (no error).  If an error occurs,
    the return value is a null pointer and ‘errno’ is set to
-   describe the error.  */
+   describe the error.
+
+   The following error conditions are defined for this function:
+
+   ENOMEM
+        The system ran out of memory.  */
 extern char *rs_concat2 (char const *__first, char const *__second);
 extern wchar_t *rs_wconcat2 (wchar_t const *__first, wchar_t const *__second);
 
@@ -93,7 +108,12 @@ extern wchar_t *rs_wconcat2 (wchar_t const *__first, wchar_t const *__second);
 
    Return value is a string.  If an error occurs, the return
    value is a null pointer and ‘errno’ is set to describe the
-   error.  */
+   error.
+
+   The following error conditions are defined for this function:
+
+   ENOMEM
+        The system ran out of memory.  */
 extern char *rs_concat2x (char const *__first, char const *__second);
 extern wchar_t *rs_wconcat2x (wchar_t const *__first, wchar_t const *__second);
 
@@ -103,7 +123,12 @@ extern wchar_t *rs_wconcat2x (wchar_t const *__first, wchar_t const *__second);
    a string.  If all arguments are null pointers, return
    value is a null pointer (no error).  If an error occurs,
    the return value is a null pointer and ‘errno’ is set to
-   describe the error.  */
+   describe the error.
+
+   The following error conditions are defined for this function:
+
+   ENOMEM
+        The system ran out of memory.  */
 extern char *rs_concat3 (char const *__first, char const *__second, char const *__third);
 extern wchar_t *rs_wconcat3 (wchar_t const *__first, wchar_t const *__second, wchar_t const *__third);
 
@@ -113,7 +138,12 @@ extern wchar_t *rs_wconcat3 (wchar_t const *__first, wchar_t const *__second, wc
 
    Return value is a string.  If an error occurs, the return
    value is a null pointer and ‘errno’ is set to describe the
-   error.   */
+   error.
+
+   The following error conditions are defined for this function:
+
+   ENOMEM
+        The system ran out of memory.  */
 extern char *rs_concat3x (char const *__first, char const *__second, char const *__third);
 extern wchar_t *rs_wconcat3x (wchar_t const *__first, wchar_t const *__second, wchar_t const *__third);
 
