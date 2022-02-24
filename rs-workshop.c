@@ -1,4 +1,4 @@
-/* rs-workshop.c --- a simple but portable thread pool.
+/* rs-workshop.c --- a simple but portable thread pool
 
    Copyright (C) 2016 Ralph Schleicher
 

@@ -1,4 +1,4 @@
-/* rs-try.h --- throw/catch control flow pattern.
+/* rs-try.h --- throw/catch control flow pattern
 
    Copyright (C) 2017 Ralph Schleicher
 

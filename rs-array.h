@@ -1,4 +1,4 @@
-/* rs-array.h --- multi-dimensional dynamic arrays.
+/* rs-array.h --- multi-dimensional dynamic arrays
 
    Copyright (C) 1993 Ralph Schleicher
 

@@ -1,4 +1,4 @@
-/* rs-alloc.c --- extended memory allocation.
+/* rs-alloc.c --- extended memory allocation
 
    Copyright (C) 1993 Ralph Schleicher
 

@@ -1,4 +1,4 @@
-/* rs-matrix.h --- selected matrix procedures.
+/* rs-matrix.h --- selected matrix procedures
 
    Copyright (C) 2014 Ralph Schleicher
 

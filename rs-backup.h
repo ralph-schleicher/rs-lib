@@ -1,4 +1,4 @@
-/* rs-backup.h --- GNU style backup files.
+/* rs-backup.h --- GNU style backup files
 
    Copyright (C) 2006 Ralph Schleicher
 

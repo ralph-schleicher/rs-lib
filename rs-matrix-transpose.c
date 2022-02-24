@@ -1,4 +1,4 @@
-/* rs-matrix-transpose.c --- in-place matrix transposition.
+/* rs-matrix-transpose.c --- in-place matrix transposition
 
    Copyright (C) 2014 Ralph Schleicher
 

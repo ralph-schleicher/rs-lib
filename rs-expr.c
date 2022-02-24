@@ -1,4 +1,4 @@
-/* rs-expr.c --- arithmetic expressions.
+/* rs-expr.c --- arithmetic expressions
 
    Copyright (C) 1993 Ralph Schleicher
 

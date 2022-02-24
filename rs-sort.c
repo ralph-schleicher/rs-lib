@@ -1,4 +1,4 @@
-/* rs-sort.h --- searching and sorting.
+/* rs-sort.h --- searching and sorting
 
    Copyright (C) 1993 Ralph Schleicher
 

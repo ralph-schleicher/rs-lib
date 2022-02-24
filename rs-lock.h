@@ -1,4 +1,4 @@
-/* rs-lock.h --- Emacs style lock files.
+/* rs-lock.h --- Emacs style lock files
 
    Copyright (C) 1999 Ralph Schleicher
 

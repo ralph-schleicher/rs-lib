@@ -1,4 +1,4 @@
-/* rs-workshop-w32.c --- a simple but portable thread pool.
+/* rs-workshop-w32.c --- a simple but portable thread pool
 
    Copyright (C) 2016 Ralph Schleicher
 

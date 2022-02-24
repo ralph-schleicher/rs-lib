@@ -1,4 +1,4 @@
-/* rs-csv.c --- comma-separated values files.
+/* rs-csv.c --- comma-separated values files
 
    Copyright (C) 2010 Ralph Schleicher
 

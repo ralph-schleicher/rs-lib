@@ -1,4 +1,4 @@
-/* rs-cons.h --- cons cells and lists.
+/* rs-cons.h --- cons cells and lists
 
    Copyright (C) 1998 Ralph Schleicher
 
