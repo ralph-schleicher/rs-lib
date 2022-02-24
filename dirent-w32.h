@@ -1,4 +1,4 @@
-/* dirent-w32.h --- basic ‘dirent’ for Windows.
+/* dirent-w32.h --- basic ‘dirent’ for Windows
 
    Copyright (C) 2014 Ralph Schleicher
 
