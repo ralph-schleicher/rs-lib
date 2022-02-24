@@ -31,7 +31,7 @@
 
 #line 1 "rs-expr.gperf"
 
-/* rs-expr.gperf --- symbol table for arithmetic expressions.	-*- C -*-
+/* rs-expr.gperf --- symbol table for arithmetic expressions  -*- C -*-
 
    Copyright (C) 1993 Ralph Schleicher
 
