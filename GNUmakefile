@@ -61,13 +61,14 @@ librs_SOURCES = \
 rs-alloc.h rs-alloc.c \
 rs-array.h rs-array.c \
 rs-backup.h rs-backup.c \
+rs-blas.h rs-blas-real-double.c rs-blas-real-float.c rs-blas-complex-double.c rs-blas-complex-float.c \
 rs-cons.h rs-cons.c \
 rs-csv.h rs-csv.c \
 rs-expr.h rs-expr.c \
 rs-lock.h rs-lock.c \
 rs-matrix.h rs-matrix-transpose.c \
 rs-sort.h rs-sort.c \
-rs-workshop.h rs-workshop.c \
+rs-string.h rs-string-char.c rs-string-wchar_t.c \
 rs-try.h rs-try.c \
 $(nil)
 librs_BUILT_SOURCES = \
@@ -104,17 +105,23 @@ sync: all
 
 ## Dependencies:
 
-rs-alloc.o: rs-alloc.h rs-alloc.c
-rs-array.o: rs-array.h rs-array.c
-rs-backup.o: rs-backup.h rs-backup.c
-rs-cons.o: rs-cons.h rs-cons.c
-rs-csv.o: rs-csv.h rs-csv.c
-rs-expr.o: rs-expr.h rs-expr.gperf.c
-rs-lock.o: rs-lock.h rs-lock.c
-rs-matrix-transpose.o: rs-matrix.h rs-matrix-transpose.c
-rs-sort.o: rs-sort.h rs-sort.c
-rs-workshop.o: rs-workshop.h rs-workshop.c rs-workshop-pthread.c rs-workshop-w32.c
-rs-try.o: rs-try.h rs-try.c
+rs-alloc$(OBJ): rs-alloc.h rs-alloc.c
+rs-array$(OBJ): rs-array.h rs-array.c
+rs-backup$(OBJ): rs-backup.h rs-backup.c
+rs-blas-real-double$(OBJ): rs-blas.h rs-blas.c rs-blas-real-double.c
+rs-blas-real-float$(OBJ): rs-blas.h rs-blas.c rs-blas-real-float.c
+rs-blas-complex-double$(OBJ): rs-blas.h rs-blas.c rs-blas-complex-double.c
+rs-blas-complex-float$(OBJ): rs-blas.h rs-blas.c rs-blas-complex-float.c
+rs-cons$(OBJ): rs-cons.h rs-cons.c
+rs-csv$(OBJ): rs-csv.h rs-csv.c
+rs-expr$(OBJ): rs-expr.h rs-expr.c rs-expr.gperf.c
+rs-lock$(OBJ): rs-lock.h rs-lock.c
+rs-matrix-transpose$(OBJ): rs-matrix.h rs-matrix-transpose.c
+rs-sort$(OBJ): rs-sort.h rs-sort.c
+rs-string-char$(OBJ): rs-string.h rs-string.c rs-string-char.c
+rs-string-wchar_t$(OBJ): rs-string.h rs-string.c rs-string-wchar_t.c
+rs-try$(OBJ): rs-try.h rs-try.c
+rs-workshop$(OBJ): rs-workshop.h rs-workshop.c rs-workshop-pthread.c rs-workshop-w32.c
 
 # local variables:
 # compile-command: "make -r "
