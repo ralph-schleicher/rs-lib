@@ -69,7 +69,9 @@ rs-lock.h rs-lock.c \
 rs-matrix.h rs-matrix-transpose.c \
 rs-sort.h rs-sort.c \
 rs-string.h rs-string-char.c rs-string-wchar_t.c \
+rs-svec.h rs-svec.c \
 rs-try.h rs-try.c \
+rs-workshop.h rs-workshop.c \
 $(nil)
 librs_BUILT_SOURCES = \
 rs-expr.gperf.c \
