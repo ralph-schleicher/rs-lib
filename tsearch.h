@@ -1,4 +1,4 @@
-/* tsearch.h --- red/black search trees.
+/* tsearch.h --- red/black search trees
 
    Copyright (C) 2008 Ralph Schleicher
 
